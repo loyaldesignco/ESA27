@@ -749,15 +749,14 @@
 
 .hm-hero-fig {
   z-index: 2;
-  object-fit: contain;
-  object-position: 100% 0%;
-  width: calc(112% - 560px);
+  width: auto;
   max-width: none;
   height: 70vh;
+  margin-right: -198px;
   position: absolute;
   top: 95px;
-  left: 560px;
-  right: auto;
+  left: auto;
+  right: 40px;
 }
 
 .hm-card-floor {
