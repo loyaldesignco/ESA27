@@ -6155,4 +6155,22 @@
   }
 }
 
+@media screen and (min-width: 768px) and (max-width: 991px) {
+  #w-node-b331423e-6bff-4848-6557-dfd3a296bee2-e8d0633d, #w-node-b331423e-6bff-4848-6557-dfd3a296bee6-e8d0633d {
+    grid-area: 1 / 1 / 2 / 2;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .ad-hero-fig-wrap {
+    min-height: 0;
+  }
+
+  .ad-cover {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+}
+
 
