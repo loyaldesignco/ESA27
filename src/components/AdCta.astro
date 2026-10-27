@@ -1,0 +1,22 @@
+---
+/** Dark bottom call-to-action used on inner pages. */
+import Lines from './Lines.astro'
+interface Props { cta: any }
+const {cta} = Astro.props
+---
+{cta && (
+<div class="ad-cta">
+  <div class="container-large">
+    <div class="ad-cta-grid">
+      <div>
+        <h2 data-a="split" class="hm-h2-cta"><Lines text={cta.heading} /></h2>
+        <p class="hm-cta-copy">{cta.copy}</p>
+      </div>
+      <div data-a="rise" class="hm-cta-btns">
+        {cta.primary?.label && <a data-mag="1" href={cta.primary.href} class="hm-btn-inverse">{cta.primary.label}</a>}
+        {cta.secondary?.label && <a href={cta.secondary.href} class="hm-btn-ghost">{cta.secondary.label}</a>}
+      </div>
+    </div>
+  </div>
+</div>
+)}

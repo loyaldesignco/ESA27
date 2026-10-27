@@ -1,0 +1,28 @@
+---
+import {tel} from '../lib/format'
+interface Props { settings: any }
+const {settings: s} = Astro.props
+const path = Astro.url.pathname.replace(/\/$/, '') || '/'
+const cur = (href: string) => (href === path ? {'aria-current': 'page' as const} : {})
+const c = (href: string, cls: string) => (href === path ? `${cls} w--current` : cls)
+---
+<div data-a="nav" class="hm-nav">
+  <div class="container-large is-nav">
+    <a href="/" {...cur('/')} class={c('/', 'w-inline-block')}><img src="/images/logo-black.svg" loading="lazy" alt={s.siteName} class="hm-nav-logo" /></a>
+    <div class="hm-nav-menu">
+      <div data-dd="1" class="hm-dd">
+        <div data-dd-toggle="1" aria-expanded="false" aria-haspopup="true" role="button" tabindex="0" class="hm-nav-link hm-dd-toggle">About<span class="hm-dd-caret"></span></div>
+        <div data-dd-menu="1" class="hm-dd-menu">
+          <a href="/history" {...cur('/history')} class={c('/history', 'hm-dd-link')}>History</a>
+          <a href="/instructors" {...cur('/instructors')} class={c('/instructors', 'hm-dd-link')}>Instructors</a>
+          <a href="/black-belts" {...cur('/black-belts')} class={c('/black-belts', 'hm-dd-link')}>Black belts</a>
+        </div>
+      </div>
+      <a href="/adult-classes" {...cur('/adult-classes')} class={c('/adult-classes', 'hm-nav-link')}>Adults</a>
+      <a href="/kids-classes" {...cur('/kids-classes')} class={c('/kids-classes', 'hm-nav-link')}>Kids</a>
+      <a href="/schedule" {...cur('/schedule')} class={c('/schedule', 'hm-nav-link')}>Schedule</a>
+      <a href={tel(s.phoneDial)} class="hm-nav-link">{s.phone}</a>
+      <a href="/visit-us" {...cur('/visit-us')} class={c('/visit-us', 'hm-nav-cta')}>Free class</a>
+    </div>
+  </div>
+</div>

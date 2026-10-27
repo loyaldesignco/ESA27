@@ -1,0 +1,93 @@
+---
+import Layout from '../layouts/Layout.astro'
+import Lines from '../components/Lines.astro'
+import Footer from '../components/Footer.astro'
+import AdCta from '../components/AdCta.astro'
+import {getShared, getPage} from '../lib/content'
+
+const shared = await getShared()
+const p = await getPage('schedulePage')
+const s = shared.settings
+---
+<Layout shared={shared} seo={p.seo}>
+  <div data-a="hero">
+    <div class="container-large">
+      <div class="ad-hero-grid">
+        <div class="ad-rail"></div>
+        <div class="ad-hero-copy">
+          <div data-a="rise" class="ad-kicker">{p.kicker}</div>
+          <h1 data-a="heroTitle" class="ad-h1"><Lines text={p.headline} /></h1>
+          <p data-a="rise" class="sc-lead">{p.lead}</p>
+        </div>
+        <div class="sc-hero-side">
+          <div data-a="heroCard" class="sc-next">
+            <div class="sc-next-head">
+              <div class="sc-micro-red">Up next</div>
+              <div data-live="today" class="sc-micro">Today</div>
+            </div>
+            <div data-live="name" class="sc-next-name">&nbsp;</div>
+            <div class="hm-next-meta"><span data-live="time" class="hm-time-chip"></span><span data-live="when" class="hm-micro"></span><span data-live="countdown" class="hm-micro-red"></span></div>
+            <a data-mag="1" href="/visit-us" class="kd-btn-full">{p.upNextButton}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ad-section">
+    <div class="container-large">
+      <div class="sc-board">
+        <div data-live="tabs" data-a="rise" class="sc-tabs"></div>
+        <div data-live="dayList" class="sc-list"></div>
+        <div class="sc-notes">
+          {(p.boardNotes || []).map((n: string) => <div>{n}</div>)}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="ad-cream">
+      <div class="container-large">
+        <div class="ad-pad">
+          <div class="ad-head-row">
+            <h2 data-a="split" class="ad-h2-md"><Lines text={p.weekHeading} /></h2>
+            <p class="ad-aside">{p.weekAside}</p>
+          </div>
+          <div data-live="week" class="sc-week"></div>
+          <p class="sc-week-note">{p.weekNote}</p>
+        </div>
+      </div>
+    </div>
+    <div class="ad-section">
+      <div class="container-large">
+        <div class="ad-prog-grid">
+          <div class="ad-rail-label">{p.guideRail}</div>
+          <div class="ad-prog-body">
+            <div class="ad-two-col">
+              <div>
+                <h2 data-a="split" class="sc-guide-h2"><Lines text={p.guideHeading} /></h2>
+                <p class="sc-guide-p">{p.guideCopy}</p>
+              </div>
+              <div class="ad-specs">
+                {(p.guide || []).map((r: any) => (
+                  <div data-a="row" class="sc-guide-row">
+                    <div class="ad-spec-k">{r.label}</div>
+                    <div>{r.value}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <AdCta cta={p.cta} />
+    <Footer settings={s} />
+  </div>
+
+  <Fragment slot="scripts">
+    <script is:inline src="/js/schedule-live.js"></script>
+    <script is:inline src="/js/schedule.js"></script>
+  </Fragment>
+</Layout>

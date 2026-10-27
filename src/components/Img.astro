@@ -1,0 +1,8 @@
+---
+/** <img> for Sanity or seed images, with responsive srcset from the Sanity CDN. */
+import {src, srcset, alt as altOf} from '../lib/image'
+interface Props { image: any; class?: string; alt?: string; width?: number; sizes?: string; loading?: 'lazy' | 'eager'; [k: string]: any }
+const {image, class: cls, alt, width, sizes = '100vw', loading = 'lazy', ...rest} = Astro.props
+const set = srcset(image)
+---
+{image && <img src={src(image, width)} srcset={set} sizes={set ? sizes : undefined} alt={alt ?? altOf(image)} loading={loading} class={cls} {...rest} />}

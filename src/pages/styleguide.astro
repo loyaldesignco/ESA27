@@ -1,0 +1,10 @@
+---
+/** Internal design-system reference, carried over from Webflow as-is (not CMS-managed, not indexed). */
+import Layout from '../layouts/Layout.astro'
+import {getShared} from '../lib/content'
+import body from '../styleguide-body.html?raw'
+const shared = await getShared()
+---
+<Layout shared={shared} seo={{title: 'Styleguide | Emerson Souza Brazilian Jiu-Jitsu', description: 'Internal design system reference for the Emerson Souza Brazilian Jiu-Jitsu website.'}} gsap={false} nav={false} noindex>
+  <Fragment set:html={body} />
+</Layout>

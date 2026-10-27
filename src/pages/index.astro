@@ -1,0 +1,180 @@
+---
+import Layout from '../layouts/Layout.astro'
+import Lines from '../components/Lines.astro'
+import Img from '../components/Img.astro'
+import Footer from '../components/Footer.astro'
+import {getShared, getPage} from '../lib/content'
+import {br, nn, tel} from '../lib/format'
+
+const shared = await getShared()
+const p = await getPage('homePage')
+const s = shared.settings
+const marquee = s.marquee || []
+---
+<Layout shared={shared} seo={p.seo}>
+  <div data-a="hero" class="hm-hero">
+    <div class="container-large is-hero">
+      <div data-a="vline" class="hm-vline-l"></div>
+      <div data-a="vline" class="hm-vline-r"></div>
+      <div data-a="hline" class="hm-hline"></div>
+      <div data-a="corner" class="hm-corner"></div>
+      <div data-par="80" class="hm-hero-copy">
+        <h1 data-a="heroTitle" class="hm-h1"><Lines text={p.heroHeadline} /></h1>
+        <div data-a="heroCta" class="hm-cta-row">
+          <a data-mag="1" href="/visit-us" class="hm-btn">{p.heroButton}</a><img src="/images/googlereviews.svg" loading="lazy" alt="" class="google-reviews" />
+        </div>
+      </div>
+      <Img image={p.heroImage} class="hm-hero-fig" data-a="heroFig" data-par="-130" sizes="(max-width: 991px) 100vw, 60vw" loading="eager" />
+      <div data-a="heroCard" class="hm-card-floor">
+        <div class="hm-social">
+          <div class="hm-social-label">Follow us</div>
+          <div class="hm-social-grid">
+            <a href={s.facebook} aria-label="Facebook" rel="noopener" class="hm-social-link w-inline-block"><svg fill="currentColor" viewBox="0 0 24 24" height="15" width="15"><path d="M14 8.5V6.8c0-.8.2-1.3 1.4-1.3H17V2.2c-.3 0-1.3-.2-2.5-.2-2.5 0-4.2 1.5-4.2 4.3v2.2H7.5V12h2.8v10H14V12h2.8l.4-3.5H14z"></path></svg></a>
+            <a href={s.instagram} aria-label="Instagram" rel="noopener" class="hm-social-link w-inline-block"><svg stroke-width="2" stroke="currentColor" fill="none" viewBox="0 0 24 24" height="15" width="15"><rect rx="5" height="18" width="18" y="3" x="3"></rect><circle r="4" cy="12" cx="12"></circle><circle stroke="none" fill="currentColor" r="1" cy="6.5" cx="17.5"></circle></svg></a>
+            <a href={s.youtube} aria-label="YouTube" rel="noopener" class="hm-social-link is-last w-inline-block"><svg fill="currentColor" viewBox="0 0 24 24" height="17" width="17"><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1c.4-1.6.5-4.8.5-4.8s0-3.2-.5-4.8zM9.8 15V9l5.8 3-5.8 3z"></path></svg></a>
+          </div>
+        </div>
+        <div class="hm-card-title" set:html={br(p.heroCardTitle)} />
+        <p class="hm-card-copy">{p.heroCardCopy}</p>
+        <div class="hm-card-foot">
+          <a href="/visit-us" class="hm-arrow-btn" aria-label="Visit us">→</a>
+        </div>
+      </div>
+      <div data-a="heroCard" class="hm-hero-note">
+        <div class="hm-note-title" set:html={br(p.heroNoteTitle)} />
+        <p class="hm-card-copy">{p.heroNoteCopy}</p>
+      </div>
+      <div data-a="heroCard" class="hm-scroll">
+        <div class="hm-scroll-label">Scroll down</div>
+        <div class="hm-scroll-track">
+          <div data-a="scrollLine" class="hm-scroll-fill"></div>
+        </div>
+        <div class="hm-scroll-arrow">↓</div>
+      </div>
+      <div data-a="heroCard" data-par="-60" class="hm-next">
+        <div class="hm-next-head">
+          <div class="hm-next-title">Up next<br />on the mats</div>
+          <div class="hm-idx">[01]</div>
+        </div>
+        <div data-live="name" class="hm-next-name">&nbsp;</div>
+        <div class="hm-next-meta"><span data-live="time" class="hm-time-chip"></span><span data-live="when" class="hm-micro"></span><span data-live="countdown" class="hm-micro-red"></span></div>
+        <div class="hm-next-imgs">{(p.heroNextImages || []).map((im: any) => <Img image={im} alt="" class="hm-next-img" width={600} />)}</div>
+        <a href="/schedule" class="hm-link-sm">View the schedule</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="hm-block">
+    <div data-wf--hm-marquee--variant="dark" class="hm-marquee w-variant-830e08f6-c25d-8ba9-dd7c-92274a7dd890">
+      <div data-a="marquee" class="hm-marquee-track">
+        {[0, 1].map(() => (
+          <div class="hm-marquee-group">
+            {marquee.map((w: string) => (<><span class="hm-marquee-word">{w}</span><span class="hm-marquee-dot"></span></>))}
+          </div>
+        ))}
+      </div>
+    </div>
+    <div class="hm-programs">
+      <div class="container-large is-programs">
+        <div class="hm-rail">{p.programsRail}</div>
+        <div class="hm-programs-body">
+          <h2 data-a="split" class="hm-h2"><Lines text={p.programsHeading} /></h2>
+          <div class="hm-rows">
+            {(p.programs || []).map((r: any, i: number) => (
+              <a data-a="row" href={r.href} class="hm-row"><span data-a="fill" class="hm-row-fill"></span><span class="hm-row-num">{nn(i + 1)}</span><span data-a="rowTitle" class="hm-row-title">{r.title}</span><span class="hm-row-copy">{r.copy}</span><span data-a="arrow" class="hm-row-arrow">→</span></a>
+            ))}
+          </div>
+        </div>
+        <div class="hm-rail-end"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hm-block">
+    <div class="hm-sched">
+      <div class="container-large">
+        <div class="hm-sched-grid">
+          <div>
+            <div class="hm-eyebrow">{p.scheduleEyebrow}</div>
+            <h2 data-a="split" class="hm-h2-md"><Lines text={p.scheduleHeading} /></h2>
+            <div data-live="week" class="hm-week"></div>
+            <p class="hm-sched-note">{p.scheduleNote}</p>
+          </div>
+          <div data-a="rise" class="hm-upnext">
+            <div class="hm-eyebrow">Up next</div>
+            <div data-live="name" class="hm-upnext-name">&nbsp;</div>
+            <div data-live="group" class="hm-upnext-group">&nbsp;</div>
+            <div class="hm-next-meta"><span data-live="time" class="hm-time-chip"></span><span data-live="when" class="hm-micro"></span><span data-live="countdown" class="hm-micro-red"></span></div>
+            <div class="hm-rule"></div>
+            <div class="hm-label">{p.firstClassLabel}</div>
+            <p class="hm-body">{p.firstClassCopy}</p>
+            <a href="/visit-us" class="hm-btn-block">{p.firstClassButton}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hm-prof">
+      <div class="container-large is-prof">
+        <div class="hm-prof-copy">
+          <div class="hm-eyebrow">{p.profEyebrow}</div>
+          <h2 data-a="split" class="hm-h2"><Lines text={p.profHeading} /></h2>
+          <p class="hm-lead">{p.profLead}</p>
+          <div class="hm-tiles">
+            {(p.profTitles || []).map((t: any) => (
+              <div data-a="tile" class="hm-tile">
+                <div class="hm-tile-k">{t.label}</div>
+                <div class="hm-tile-v">{t.value}</div>
+              </div>
+            ))}
+          </div>
+          <a href="/instructors" class="hm-link-md">{p.profLink}</a>
+        </div>
+        <div data-a="portraitWrap" class="hm-portrait-wrap"><Img image={p.profImage} class="hm-portrait" data-a="portrait" sizes="(max-width: 991px) 100vw, 50vw" />
+          <div data-a="badge" class="hm-badge">{p.profBadge}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hm-block">
+    <div class="hm-towns">
+      <div class="container-large">
+        <div class="hm-towns-head">
+          <div>
+            <div class="hm-eyebrow">{p.townsEyebrow}</div>
+            <h2 data-a="split" class="hm-h2-sm"><Lines text={p.townsHeading} /></h2>
+          </div>
+          <p class="hm-addr">{s.street}, {s.city}. {s.entranceNote}.</p>
+        </div>
+        <div class="hm-town-grid">
+          {(s.towns || []).map((t: any) => (
+            <a data-a="town" href="/visit-us" class="hm-town w-inline-block">
+              <div class="hm-town-name">{t.name}</div>
+              <div class="hm-town-drive">{t.drive}</div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+    {p.cta && (
+      <div class="hm-cta">
+        <div class="container-large is-cta">
+          <div>
+            <h2 data-a="split" class="hm-h2-cta"><Lines text={p.cta.heading} /></h2>
+            <p class="hm-cta-copy">{p.cta.copy}</p>
+          </div>
+          <div data-a="rise" class="hm-cta-btns">
+            {p.cta.primary?.label && <a data-mag="1" href={p.cta.primary.href} class="hm-btn-inverse">{p.cta.primary.label}</a>}
+            {p.cta.secondary?.label && <a href={p.cta.secondary.href} class="hm-btn-ghost">{p.cta.secondary.label}</a>}
+          </div>
+        </div>
+      </div>
+    )}
+    <Footer settings={s} />
+  </div>
+
+  <Fragment slot="scripts">
+    <script is:inline src="/js/schedule-live-home.js"></script>
+    <script is:inline src="/js/home.js"></script>
+  </Fragment>
+</Layout>

@@ -1,0 +1,153 @@
+---
+import Layout from '../layouts/Layout.astro'
+import Lines from '../components/Lines.astro'
+import Img from '../components/Img.astro'
+import Footer from '../components/Footer.astro'
+import AdCta from '../components/AdCta.astro'
+import Strip from '../components/Strip.astro'
+import Feature from '../components/Feature.astro'
+import Benefits from '../components/Benefits.astro'
+import Faqs from '../components/Faqs.astro'
+import {getShared, getPage} from '../lib/content'
+import {br} from '../lib/format'
+import {address} from '../lib/schema'
+
+const shared = await getShared()
+const p = await getPage('kidsPage')
+const s = shared.settings
+const [pt1, pt2] = p.points || []
+const [age1, age2] = p.ageGroups || []
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'Course',
+  name: 'Kids Jiu-Jitsu and Self Defense, Baldwin NY',
+  description: p.seo?.description,
+  provider: {'@type': 'SportsActivityLocation', name: s.siteName, address: address(s), telephone: `+${s.phoneDial}`},
+  audience: {'@type': 'PeopleAudience', suggestedMinAge: 5},
+}
+---
+<Layout shared={shared} seo={p.seo} jsonLd={[ld]}>
+  <div data-a="hero">
+    <div class="container-large">
+      <div class="kd-hero-grid">
+        <div class="kd-rail"></div>
+        <div class="kd-hero-copy">
+          <div data-a="rise" class="kd-kicker">{p.kicker}</div>
+          <h1 data-a="heroTitle" class="kd-h1"><Lines text={p.headline} /></h1>
+          <p data-a="rise" class="kd-intro">{p.intro}</p>
+          <div data-a="heroCta" class="kd-cta-row">
+            {p.primaryButton?.label && <a data-mag="1" href={p.primaryButton.href} class="hm-btn">{p.primaryButton.label}</a>}
+            {p.secondaryButton?.label && <a href={p.secondaryButton.href} class="hm-link-line">{p.secondaryButton.label}</a>}
+          </div>
+        </div>
+        <div class="kd-hero-media">
+          <div data-a="heroFigWrap" class="kd-fig-wrap"><Img image={p.heroImage} class="kd-fig" sizes="(max-width: 991px) 100vw, 50vw" loading="eager" /></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ad-band">
+    <div class="container-large">
+      <div class="ad-band-grid">
+        <div data-a="corner" class="kd-corner"></div>
+        <div class="kd-rail"></div>
+        {pt1 && (
+          <div data-a="rise" class="ad-point">
+            <div class="ad-point-title" set:html={br(pt1.title)} />
+            <p class="ad-point-copy">{pt1.copy}</p>
+          </div>
+        )}
+        {pt2 && (
+          <div data-a="rise" class="ad-point-mid">
+            <div class="ad-point-title" set:html={br(pt2.title)} />
+            <p class="ad-point-copy">{pt2.copy}</p>
+          </div>
+        )}
+        <div data-a="rise" class="ad-point-times">
+          <div class="kd-kicker">{p.sideLabel}</div>
+          <p class="ad-point-copy">{p.sideCopy}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="ad-section">
+      <div class="container-large">
+        <div class="ad-prog-grid">
+          <div class="ad-rail-label">{p.agesRail}</div>
+          <div class="ad-prog-body">
+            <h2 data-a="split" class="kd-h2-wide"><Lines text={p.agesHeading} /></h2>
+            <div class="kd-ages">
+              {age1 && (
+                <div data-a="card" class="kd-age">
+                  <div class="kd-age-head">
+                    <div class="kd-age-name">{age1.name}</div>
+                    <div class="kd-chip">{age1.ages}</div>
+                  </div>
+                  <div class="kd-time-red">{age1.time}</div>
+                  <div class="kd-meta">{age1.meta}</div>
+                  <p class="kd-age-d">{age1.description}</p>
+                  {age1.button?.label && <a href={age1.button.href} class="kd-btn-full">{age1.button.label}</a>}
+                </div>
+              )}
+              {age2 && (
+                <div data-a="card" class="kd-age-alt">
+                  <div class="kd-age-head">
+                    <div class="kd-age-name">{age2.name}</div>
+                    <div class="kd-chip">{age2.ages}</div>
+                  </div>
+                  <div class="kd-time">{age2.time}</div>
+                  <div class="kd-meta">{age2.meta}</div>
+                  <p class="kd-age-d">{age2.description}</p>
+                  {age2.button?.label && <a href={age2.button.href} class="kd-btn-full-dark">{age2.button.label}</a>}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <Strip rail={p.stripRail} cells={p.strip} />
+    <Benefits heading={p.benefitsHeading} aside={p.benefitsAside} items={p.benefits} prefix="kd" />
+  </div>
+  <div>
+    <Feature feature={p.feature} />
+    <div class="ad-section">
+      <div class="container-large">
+        <div class="kd-quote-grid">
+          <div data-a="portraitWrap" class="kd-quote-media"><Img image={p.quoteImage} class="kd-cover" sizes="(max-width: 991px) 100vw, 50vw" /></div>
+          <div class="kd-quote-body">
+            <div data-a="rise" class="kd-quote">
+              <p class="kd-quote-text">{p.quote}</p>
+              <div class="kd-quote-cite">{p.quoteCite}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ad-section">
+      <div class="container-large">
+        <div class="ad-pad">
+          <div class="kd-faq-grid">
+            <div>
+              <div class="kd-kicker">{p.faqKicker}</div>
+              <h2 data-a="split" class="kd-h2-faq"><Lines text={p.faqHeading} /></h2>
+              <div class="kd-since">
+                <div class="kd-since-text">{p.faqSince}</div>
+              </div>
+            </div>
+            <Faqs faqs={p.faqs} />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <AdCta cta={p.cta} />
+    <Footer settings={s} />
+  </div>
+
+  <Fragment slot="scripts">
+    <script is:inline src="/js/kids.js"></script>
+  </Fragment>
+</Layout>

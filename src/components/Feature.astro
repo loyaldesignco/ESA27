@@ -1,0 +1,27 @@
+---
+/** Big cut-out figure with copy and callout. */
+import Lines from './Lines.astro'
+import Img from './Img.astro'
+interface Props { feature: any }
+const {feature: f} = Astro.props
+---
+{f && (
+<div data-a="feature" class="pg-feature">
+  <div class="container-large">
+    <div class="pg-feature-grid">
+      <div class="pg-feature-rail"></div>
+      <div class="pg-copy">
+        <div data-a="rise" class="ad-card-k">{f.kicker}</div>
+        <h2 data-a="split" class="pg-h"><Lines text={f.heading} /></h2>
+        <p data-a="rise" class="pg-p">{f.copy}</p>
+      </div>
+      <div class="pg-fmedia"><Img image={f.image} class="pg-fig" sizes="(max-width: 991px) 100vw, 50vw" />
+        <div data-a="rise" class="pg-callout">
+          <div class="pg-callout-k">{f.calloutTitle}</div>
+          <div class="pg-callout-v">{f.calloutText}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+)}

@@ -1,0 +1,26 @@
+---
+/** Cream section with numbered benefit tiles. prefix = "ad" (adults) or "kd" (kids). */
+import Lines from './Lines.astro'
+import {nn} from '../lib/format'
+interface Props { heading?: string; aside?: string; items?: any[]; prefix?: 'ad' | 'kd' }
+const {heading, aside, items = [], prefix = 'ad'} = Astro.props
+---
+<div class="ad-cream">
+  <div class="container-large">
+    <div class="ad-pad">
+      <div class="ad-head-row">
+        <h2 data-a="split" class="ad-h2-md"><Lines text={heading} /></h2>
+        <p class="ad-aside">{aside}</p>
+      </div>
+      <div class={`${prefix}-tiles`}>
+        {items.map((t, i) => (
+          <div data-a="tile" class={`${prefix}-tile`}>
+            <div class="ad-tile-n">{nn(i + 1)}</div>
+            <div class={`${prefix}-tile-t`}>{t.title}</div>
+            <p class={`${prefix}-tile-d`}>{t.copy}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,143 @@
+---
+import Layout from '../layouts/Layout.astro'
+import Lines from '../components/Lines.astro'
+import Img from '../components/Img.astro'
+import Footer from '../components/Footer.astro'
+import AdCta from '../components/AdCta.astro'
+import Strip from '../components/Strip.astro'
+import Feature from '../components/Feature.astro'
+import Benefits from '../components/Benefits.astro'
+import {getShared, getPage} from '../lib/content'
+import {br} from '../lib/format'
+import {address} from '../lib/schema'
+
+const shared = await getShared()
+const p = await getPage('adultPage')
+const s = shared.settings
+const [pt1, pt2] = p.points || []
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'Course',
+  name: 'Adult Brazilian Jiu-Jitsu Classes',
+  description: p.seo?.description,
+  provider: {'@type': 'SportsActivityLocation', name: s.siteName, address: address(s), telephone: `+${s.phoneDial}`},
+}
+---
+<Layout shared={shared} seo={p.seo} jsonLd={[ld]}>
+  <div data-a="hero">
+    <div class="container-large">
+      <div class="ad-hero-grid">
+        <div class="ad-rail"></div>
+        <div id="w-node-b331423e-6bff-4848-6557-dfd3a296bee2-e8d0633d" class="ad-hero-copy">
+          <div data-a="rise" class="ad-kicker">{p.kicker}</div>
+          <h1 data-a="heroTitle" class="ad-h1"><Lines text={p.headline} /></h1>
+          <div data-a="heroCta" class="ad-cta-row">
+            {p.primaryButton?.label && <a data-mag="1" href={p.primaryButton.href} class="hm-btn">{p.primaryButton.label}</a>}
+            {p.secondaryButton?.label && <a href={p.secondaryButton.href} class="hm-link-line">{p.secondaryButton.label}</a>}
+          </div>
+        </div>
+        <div id="w-node-b331423e-6bff-4848-6557-dfd3a296bee6-e8d0633d" class="ad-hero-media">
+          <div data-a="heroFigWrap" class="ad-hero-fig-wrap"><Img image={p.heroImage} class="ad-cover" data-a="heroFig" sizes="(max-width: 991px) 100vw, 50vw" loading="eager" /></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ad-band">
+    <div class="container-large">
+      <div class="ad-band-grid">
+        <div data-a="corner" class="ad-corner"></div>
+        <div class="ad-rail"></div>
+        {pt1 && (
+          <div data-a="rise" class="ad-point">
+            <div class="ad-point-title" set:html={br(pt1.title)} />
+            <p class="ad-point-copy">{pt1.copy}</p>
+          </div>
+        )}
+        {pt2 && (
+          <div data-a="rise" class="ad-point-mid">
+            <div class="ad-point-title" set:html={br(pt2.title)} />
+            <p class="ad-point-copy">{pt2.copy}</p>
+          </div>
+        )}
+        <div data-a="rise" class="ad-point-times">
+          <div class="ad-kicker">{p.timesLabel}</div>
+          <div class="ad-times">
+            {(p.times || []).map((t: any) => (<><div class="ad-times-day">{t.label}</div><div class="ad-times-val">{t.value}</div></>))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="ad-section">
+      <div class="container-large">
+        <div class="ad-prog-grid">
+          <div class="ad-rail-label">{p.programRail}</div>
+          <div class="ad-prog-body">
+            <div class="ad-two-col">
+              <div>
+                <h2 data-a="split" class="ad-h2"><Lines text={p.programHeading} /></h2>
+                <p class="ad-body-lg">{p.programCopy}</p>
+                {p.programCopy2 && <p class="ad-body-lg-2">{p.programCopy2}</p>}
+              </div>
+              <div class="ad-specs">
+                {(p.specs || []).map((r: any) => (
+                  <div data-a="row" class="ad-spec">
+                    <div class="ad-spec-k">{r.label}</div>
+                    <div>{r.value}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ad-section">
+      <div class="container-large">
+        <div class="ad-pad">
+          <h2 data-a="split" class="ad-h2"><Lines text={p.cardsHeading} /></h2>
+          <div class="ad-cards">
+            {(p.cards || []).map((c: any) => (
+              <div data-a="card" class="ad-card">
+                <div class="ad-card-media"><Img image={c.image} class="ad-card-img" sizes="(max-width: 767px) 100vw, 33vw" /></div>
+                <div class="ad-card-body">
+                  <div class="ad-card-k">{c.kicker}</div>
+                  <div class="ad-card-t">{c.title}</div>
+                  <p class="ad-card-d">{c.description}</p>
+                  <div class="ad-card-when">{c.when}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <Strip rail={p.stripRail} cells={p.strip} />
+    <Benefits heading={p.benefitsHeading} aside={p.benefitsAside} items={p.benefits} prefix="ad" />
+    <Feature feature={p.feature} />
+    <div class="ad-section">
+      <div class="container-large">
+        <div class="ad-why-grid">
+          <div class="ad-why-copy">
+            <div class="ad-kicker">{p.whyKicker}</div>
+            <h2 data-a="split" class="ad-h2-why"><Lines text={p.whyHeading} /></h2>
+            <p class="ad-why-p">{p.whyCopy}</p>
+            {p.whyCopy2 && <p class="ad-why-p2">{p.whyCopy2}</p>}
+          </div>
+          <div data-a="portraitWrap" class="ad-why-media"><Img image={p.whyImage} class="ad-why-img" data-a="portrait" sizes="(max-width: 991px) 100vw, 50vw" /></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <AdCta cta={p.cta} />
+    <Footer settings={s} />
+  </div>
+
+  <Fragment slot="scripts">
+    <script is:inline src="/js/adult.js"></script>
+  </Fragment>
+</Layout>

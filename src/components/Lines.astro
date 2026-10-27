@@ -1,0 +1,8 @@
+---
+/** Headline split into masked lines for the GSAP reveal. A line starting with * is red. */
+import {lines} from '../lib/format'
+interface Props { text?: string; red?: string }
+const {text = '', red = 'hm-line-red'} = Astro.props
+const ls = lines(text)
+---
+{ls.map((l) => <span class="hm-mask"><span data-a="line" class={l.red ? red : 'hm-line'}>{l.text}</span></span>)}

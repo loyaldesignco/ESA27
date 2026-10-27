@@ -1,0 +1,22 @@
+---
+/** "On the mat" three-photo strip. */
+import Img from './Img.astro'
+import {nn} from '../lib/format'
+interface Props { rail?: string; cells?: any[] }
+const {rail, cells = []} = Astro.props
+---
+<div class="pg-strip">
+  <div class="container-large">
+    <div class="pg-strip-grid">
+      <div class="pg-rail">{rail}</div>
+      <div class="pg-cells">
+        {cells.map((c, i) => (
+          <div data-a="card" class="pg-cell">
+            <div class="pg-media"><Img image={c.image} class="pg-img" sizes="(max-width: 767px) 100vw, 33vw" /></div>
+            <div class="pg-foot"><span>{c.label}</span><span class="pg-idx">{nn(i + 1)}</span></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</div>

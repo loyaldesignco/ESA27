@@ -1,0 +1,125 @@
+---
+import Layout from '../layouts/Layout.astro'
+import Lines from '../components/Lines.astro'
+import Img from '../components/Img.astro'
+import Footer from '../components/Footer.astro'
+import AdCta from '../components/AdCta.astro'
+import Lineage from '../components/Lineage.astro'
+import {getShared, getPage} from '../lib/content'
+import {rankedRoster} from '../lib/format'
+import {address} from '../lib/schema'
+
+const shared = await getShared()
+const p = await getPage('blackBeltsPage')
+const s = shared.settings
+const roster = rankedRoster(shared.roster)
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: `Black belts promoted at ${s.siteName}`,
+  about: {'@type': 'SportsActivityLocation', name: s.siteName, address: address(s)},
+}
+---
+<Layout shared={shared} seo={p.seo} jsonLd={[ld]}>
+  <div data-a="hero">
+    <div class="container-large">
+      <div class="bb-hero-grid">
+        <div class="bb-rail"></div>
+        <div class="bb-hero-copy">
+          <div data-a="rise" class="bb-kicker">{p.kicker}</div>
+          <h1 data-a="heroTitle" class="bb-h1"><Lines text={p.headline} /></h1>
+        </div>
+        <div class="bb-hero-media">
+          <div data-a="heroFigWrap" class="bb-hero-fig-wrap"><Img image={p.heroImage} class="bb-cover" sizes="(max-width: 991px) 100vw, 50vw" loading="eager" /></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ad-band">
+    <div class="container-large">
+      <div class="in-band-grid">
+        <div data-a="corner" class="bb-corner"></div>
+        <div class="bb-rail"></div>
+        <div data-a="rise" class="in-bio">
+          <p class="in-bio-p">{p.intro}</p>
+        </div>
+        <div data-a="rise" class="in-titles-side">
+          <div class="in-title-k">{p.lineageLabel}</div>
+          <p class="kd-tile-d">{p.lineageText}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="ad-section">
+      <div class="container-large">
+        <div class="ad-pad">
+          <div class="ad-head-row">
+            <h2 data-a="split" class="ad-h2-md"><Lines text={p.gridHeading} /></h2>
+            <div data-a="rise" class="bb-filters">
+              <div data-filter="all" tabindex="0" role="button" class="bb-filter">All</div>
+              <div data-filter="deg" tabindex="0" role="button" class="bb-filter">Degreed</div>
+              <div data-filter="none" tabindex="0" role="button" class="bb-filter">No degree</div>
+            </div>
+          </div>
+          <!-- Rendered at build time; /js/black-belts-roster.js re-renders in the browser so degrees roll over on each anniversary. -->
+          <div class="bb-grid">
+            {roster.map((r) => (
+              <div class="bb-card" data-a="card" data-deg={r.degree}>
+                <div class="bb-photo"></div>
+                <div class="bb-belt"><div class="bb-tab">{Array.from({length: r.degree}).map(() => <div class="bb-stripe" data-a="beltStripe"></div>)}</div></div>
+                <div class="bb-body">
+                  <h3 class="bb-name">{r.name}</h3>
+                  <div class={r.degree ? 'bb-rank-red' : 'bb-rank'}>{r.short}</div>
+                  {r.note && <div class="bb-note">{r.note}</div>}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="ad-section">
+      <div class="container-large">
+        <div class="ad-prog-grid">
+          <div class="ad-rail-label">{p.lineageRail}</div>
+          <div class="ad-prog-body">
+            <div class="ad-two-col">
+              <div>
+                <h2 data-a="split" class="ad-h2"><Lines text={p.lineageHeading} /></h2>
+                <p data-a="rise" class="hs-lin-p">{p.lineageCopy}</p>
+              </div>
+              <Lineage rows={p.lineage} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ad-section">
+      <div class="container-large">
+        <div class="in-quote-grid">
+          <div class="in-quote-body">
+            <div class="ad-kicker">{p.rankKicker}</div>
+            <h2 data-a="split" class="ad-h2-why"><Lines text={p.rankHeading} /></h2>
+            <p class="ad-why-p">{p.rankCopy}</p>
+            <div class="bb-chips">
+              {['White', 'Blue', 'Purple', 'Brown', 'Black'].map((b) => (
+                <div class="bb-chip"><span class={`bb-sw-${b.toLowerCase()}`}></span><span class="bb-chip-t">{b}</span></div>
+              ))}
+            </div>
+          </div>
+          <div data-a="portraitWrap" class="in-quote-media"><Img image={p.rankImage} class="ad-cover" sizes="(max-width: 991px) 100vw, 50vw" /></div>
+        </div>
+      </div>
+    </div>
+    <AdCta cta={p.cta} />
+    <Footer settings={s} />
+  </div>
+
+  <Fragment slot="scripts">
+    <script is:inline src="/js/black-belts-roster.js"></script>
+    <script is:inline src="/js/black-belts.js"></script>
+  </Fragment>
+</Layout>

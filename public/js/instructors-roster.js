@@ -1,0 +1,1 @@
+(function(){var R=window.SouzaRoster;if(!R)return;document.querySelectorAll('[data-roster]').forEach(function(el){var p=R.find(el.getAttribute('data-roster'));if(p)el.textContent=p.rank;});})();

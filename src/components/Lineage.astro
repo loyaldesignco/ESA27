@@ -1,0 +1,16 @@
+---
+/** Numbered lineage rows (label = name, value = note). */
+import {nn} from '../lib/format'
+interface Props { rows?: any[] }
+const {rows = []} = Astro.props
+---
+<div class="hs-lin-list">
+  {rows.map((r, i) => (
+    <div data-a="row" class="hs-lin-row"><span class="ad-tile-n">{nn(i + 1)}</span>
+      <div>
+        <div class="hs-lin-name">{r.label}</div>
+        <div class="hs-lin-note">{r.value}</div>
+      </div>
+    </div>
+  ))}
+</div>

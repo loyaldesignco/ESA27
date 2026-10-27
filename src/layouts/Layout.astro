@@ -1,0 +1,99 @@
+---
+/**
+ * Base layout — mirrors the <head> and script order of the Webflow export.
+ * jQuery and webflow.js are dropped (the site used no Webflow interactions).
+ */
+import '../styles/normalize.css'
+import '../styles/webflow.css'
+import '../styles/esa-2026.webflow.css'
+import '../styles/embeds.css'
+import Nav from '../components/Nav.astro'
+import {rosterForScript, scheduleForScript} from '../lib/format'
+import {src} from '../lib/image'
+import {business, withContext} from '../lib/schema'
+
+interface Props {
+  shared: {settings: any; schedule: any; roster: any[]}
+  seo?: {title?: string; description?: string; image?: any}
+  /** gsap + ScrollTrigger (every page except the styleguide) */
+  gsap?: boolean
+  /** extra JSON-LD objects for this page */
+  jsonLd?: any[]
+  /** data merged into window.__ESA for page scripts */
+  data?: Record<string, unknown>
+  noindex?: boolean
+  /** render the site nav inside .hm-page (off for the styleguide) */
+  nav?: boolean
+}
+
+const {shared, seo = {}, gsap = true, jsonLd = [], data = {}, noindex = false, nav = true} = Astro.props
+const {settings: s, schedule, roster} = shared
+const title = seo.title || s.siteName
+const description = seo.description || ''
+const siteUrl = (s.siteUrl || Astro.site?.toString() || '').replace(/\/$/, '')
+const canonical = siteUrl ? siteUrl + (Astro.url.pathname === '/' ? '/' : Astro.url.pathname.replace(/\/$/, '')) : undefined
+const ogImage = src(seo.image || s.shareImage, 1200)
+const ogImageAbs = ogImage && ogImage.startsWith('/') ? siteUrl + ogImage : ogImage
+
+const ESA = {
+  site: {
+    phone: s.phone,
+    phoneDial: s.phoneDial,
+    street: s.street,
+    cityLine: `${s.city}, ${s.region} ${s.zip}`,
+    mapQuery: s.mapQuery,
+    mapTitle: `${s.siteName}, ${s.street}, ${s.city} ${s.region}`,
+  },
+  roster: rosterForScript(roster),
+  schedule: scheduleForScript(schedule),
+  ...data,
+}
+const ld = [withContext(business(s, schedule)), ...jsonLd]
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {noindex && <meta name="robots" content="noindex" />}
+    {canonical && <link rel="canonical" href={canonical} />}
+    <meta property="og:title" content={title} />
+    {description && <meta property="og:description" content={description} />}
+    <meta property="og:type" content="website" />
+    {canonical && <meta property="og:url" content={canonical} />}
+    {ogImageAbs && <meta property="og:image" content={ogImageAbs} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://use.typekit.net" crossorigin />
+
+    <!-- Adobe Fonts kit (Titillium Web, IBM Plex Sans, Lora) -->
+    <script is:inline src="https://use.typekit.net/poh0yjf.js"></script>
+    <script is:inline>try{Typekit.load();}catch(e){}</script>
+    <script is:inline>!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script>
+
+    <!-- CMS data for the page scripts -->
+    <script is:inline define:vars={{ESA}}>window.__ESA = ESA;</script>
+    <script is:inline src="/js/back-to-top.js"></script>
+    <script is:inline src="/js/roster.js"></script>
+    <slot name="head" />
+    {ld.map((o) => <script type="application/ld+json" set:html={JSON.stringify(o)} />)}
+  </head>
+  <body>
+    {nav ? (
+      <div class="hm-page">
+        <Nav settings={s} />
+        <slot />
+      </div>
+    ) : <slot />}
+    <slot name="after-page" />
+
+    <script is:inline src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+    <script is:inline src="/js/site.js"></script>
+    {gsap && <script is:inline src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>}
+    {gsap && <script is:inline src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>}
+    <slot name="scripts" />
+  </body>
+</html>

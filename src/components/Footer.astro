@@ -1,0 +1,42 @@
+---
+import {tel} from '../lib/format'
+interface Props { settings: any }
+const {settings: s} = Astro.props
+const path = Astro.url.pathname.replace(/\/$/, '') || '/'
+const L = (href: string, label: string) => ({href, label, current: href === path})
+const cols = [
+  {label: 'Train', links: [L('/adult-classes', 'Adult classes'), L('/kids-classes', 'Kids classes'), L('/schedule', 'Class schedule'), L('/schedule', 'Open mat')]},
+  {label: 'Academy', links: [L('/history', 'History'), L('/instructors', 'Instructors'), L('/black-belts', 'Black belts'), L('/visit-us', 'Visit us')]},
+  {label: 'Follow', links: [
+    s.instagram && {href: s.instagram, label: 'Instagram'},
+    s.facebook && {href: s.facebook, label: 'Facebook'},
+    s.youtube && {href: s.youtube, label: 'YouTube'},
+  ].filter(Boolean)},
+]
+---
+<div class="hm-footer">
+  <div class="container-large">
+    <div class="hm-foot-grid">
+      <div>
+        <div class="hm-foot-title">{s.footerTitle}</div>
+        <p class="hm-foot-addr">{s.street}<br />{s.city}, {s.region} {s.zip}<br />
+          <a href={tel(s.phoneDial)} class="hm-foot-tel">{s.phone}</a><br />
+          <a href={`mailto:${s.email}`} class="hm-foot-mail">{s.email}</a>
+        </p>
+      </div>
+      {cols.map((col) => (
+        <div>
+          <div class="hm-foot-label">{col.label}</div>
+          <div class="hm-foot-links">
+            {col.links.map((l: any) => (
+              <a href={l.href} aria-current={l.current ? 'page' : undefined} class={l.current ? 'hm-foot-link w--current' : 'hm-foot-link'}>{l.label}</a>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+    <div class="hm-foot-bottom"><img src="/images/logotype-white.svg" loading="lazy" alt="Emerson Souza Jiu-Jitsu" class="hm-foot-logo" />
+      <div class="hm-foot-note">{s.footerNote}</div>
+    </div>
+  </div>
+</div>

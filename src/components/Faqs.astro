@@ -1,0 +1,13 @@
+---
+interface Props { faqs?: any[] }
+const {faqs = []} = Astro.props
+---
+<div class="kd-faqs">
+  {faqs.map((f) => (
+    <div data-a="row" class="kd-faq">
+      <h3 class="kd-faq-q">{f.question}</h3>
+      <p class="kd-faq-a">{f.answer}</p>
+    </div>
+  ))}
+  <slot />
+</div>

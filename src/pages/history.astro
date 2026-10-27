@@ -1,0 +1,126 @@
+---
+import Layout from '../layouts/Layout.astro'
+import Lines from '../components/Lines.astro'
+import Footer from '../components/Footer.astro'
+import AdCta from '../components/AdCta.astro'
+import Lineage from '../components/Lineage.astro'
+import {getShared, getPage} from '../lib/content'
+import {nn} from '../lib/format'
+import {src, alt} from '../lib/image'
+import {address} from '../lib/schema'
+
+const shared = await getShared()
+const p = await getPage('historyPage')
+const s = shared.settings
+const events = p.events || []
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  name: p.seo?.title,
+  about: {'@type': 'Thing', name: 'Brazilian jiu-jitsu'},
+  publisher: {'@type': 'SportsActivityLocation', name: s.siteName, address: address(s)},
+}
+---
+<Layout shared={shared} seo={p.seo} jsonLd={[ld]}>
+  <script slot="head" is:inline src="/js/history-drag.js"></script>
+  <div data-a="hero">
+    <div class="container-large">
+      <div class="ad-hero-grid">
+        <div class="ad-rail"></div>
+        <div class="ad-hero-copy">
+          <div data-a="rise" class="ad-kicker">{p.kicker}</div>
+          <h1 data-a="heroTitle" class="ad-h1"><Lines text={p.headline} /></h1>
+          <p data-a="rise" class="hs-hero-lead">{p.lead}</p>
+        </div>
+        <div class="hs-hero-side">
+          {(p.kanji || []).map((k: any) => (
+            <div data-a="rise" class="hs-kanji-row"><span class="hs-kanji">{k.glyph}</span>
+              <div>
+                <div class="hs-kanji-t">{k.title}</div>
+                <p class="hs-kanji-d">{k.copy}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div data-a="timeline" class="hs-tl">
+      <div class="container-large">
+        <div class="hs-tl-grid">
+          <div data-a="corner" class="ad-corner"></div>
+          <div class="hs-rail">
+            <div class="hs-rail-line">
+              <div data-a="timeFill" class="hs-rail-fill"></div>
+            </div>
+          </div>
+          <div class="hs-stage-col">
+            <div class="hs-stage">
+              <div class="hs-stage-head"><span class="hs-stage-k">{p.timelineLabel}</span><span data-a="holoName" class="hs-stage-name">{events[0]?.stageName}</span></div>
+              <div data-a="holo" class="hs-holo">
+                <div class="hs-holo-glow"></div><img src="" loading="lazy" alt="" class="hs-photo" />
+                <div class="hs-holo-floor"></div>
+              </div>
+              <div class="hs-reel-mask">
+                <div data-a="yearReel" class="hs-reel">
+                  {events.map((e: any, i: number) => <div class={i === events.length - 1 ? 'hs-year-red' : 'hs-year'}>{e.year}</div>)}
+                </div>
+              </div>
+              <div class="hs-prog"><span data-a="yearIdx" class="hs-prog-i">01</span><span class="hs-prog-track"><span data-a="yearBar" class="hs-prog-bar"></span></span><span class="hs-prog-t">{nn(events.length)}</span></div>
+            </div>
+          </div>
+          <div data-a="events" class="hs-events">
+            {events.map((e: any, i: number) => (
+              <div data-a="event" data-key={e.keyWhite ? '1' : '0'} data-name={e.stageName} class="hs-event">
+                <div class="hs-ev-meta"><span class="hs-ev-n">{nn(i + 1)}</span><span class="hs-ev-place">{e.place}</span></div>
+                <h3 class="hs-ev-title">{e.title}</h3>
+                <p class="hs-ev-body">{e.body}</p>{e.image && <img src={src(e.image, 1200)} loading="lazy" alt={alt(e.image)} class="hs-src" />}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="hs-ad">
+      <div class="container-large">
+        <div class="hs-ad-grid">
+          <div class="hs-ad-rail"></div>
+          <div class="hs-ad-main">
+            <div class="hs-ad-k">{p.quoteKicker}</div>
+            <p data-a="split" class="hs-ad-q"><Lines text={p.quote} /></p>
+          </div>
+          <div class="hs-ad-side">
+            <p data-a="rise" class="hs-ad-p">{p.quoteCopy}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ad-section">
+      <div class="container-large">
+        <div class="ad-prog-grid">
+          <div class="ad-rail-label">{p.lineageRail}</div>
+          <div class="ad-prog-body">
+            <div class="ad-two-col">
+              <div>
+                <h2 data-a="split" class="ad-h2"><Lines text={p.lineageHeading} /></h2>
+                <p data-a="rise" class="hs-lin-p">{p.lineageCopy}</p>
+                {p.lineageLink?.label && <a href={p.lineageLink.href} class="in-all-link">{p.lineageLink.label}</a>}
+              </div>
+              <Lineage rows={p.lineage} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <AdCta cta={p.cta} />
+    <Footer settings={s} />
+  </div>
+
+  <Fragment slot="scripts">
+    <script is:inline src="https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js"></script>
+    <script is:inline src="/js/history.js"></script>
+  </Fragment>
+</Layout>

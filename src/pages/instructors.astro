@@ -1,0 +1,190 @@
+---
+import Layout from '../layouts/Layout.astro'
+import Lines from '../components/Lines.astro'
+import Img from '../components/Img.astro'
+import Footer from '../components/Footer.astro'
+import AdCta from '../components/AdCta.astro'
+import {getShared, getPage} from '../lib/content'
+import {nn, rankedRoster} from '../lib/format'
+import {address} from '../lib/schema'
+
+const shared = await getShared()
+const p = await getPage('instructorsPage')
+const s = shared.settings
+const ranks = Object.fromEntries(rankedRoster(shared.roster).map((r) => [r.name, r.rank]))
+const gallery = p.gallery || []
+const belts = p.belts || []
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Emerson Souza',
+  alternateName: 'Eminho',
+  jobTitle: 'Professor, Brazilian jiu-jitsu black belt',
+  worksFor: {'@type': 'SportsActivityLocation', name: s.siteName, address: address(s)},
+  award: belts
+    .filter((b: any) => b.belt === 'black')
+    .flatMap((b: any) => (b.wins || []).filter((w: any) => /^champion$/i.test(w.value)).map((w: any) => `${w.label}, First Place`)),
+}
+---
+<Layout shared={shared} seo={p.seo} jsonLd={[ld]} data={{galleryCaps: gallery.map((g: any) => g.caption || '')}}>
+  <div class="div-block">
+    <div data-a="hero">
+      <div class="container-large">
+        <div class="in-hero-grid">
+          <div class="in-rail"></div>
+          <div class="in-hero-copy">
+            <div data-a="rise" class="in-kicker">{p.kicker}</div>
+            <h1 data-a="heroTitle" class="in-h1"><Lines text={p.headline} /></h1>
+            <div data-a="rise" class="in-sub">{p.sub}</div>
+          </div>
+          <div class="in-fig-side">
+            <div data-a="heroFigWrap" class="in-fig-wrap"><Img image={p.heroImage} class="in-cover" sizes="(max-width: 991px) 100vw, 50vw" loading="eager" /></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ad-band">
+      <div class="container-large">
+        <div class="in-band-grid">
+          <div data-a="corner" class="in-corner"></div>
+          <div class="in-rail"></div>
+          <div data-a="rise" class="in-bio">
+            <p class="in-bio-p">{p.bio}</p>
+          </div>
+          <div class="in-titles-side">
+            <div class="in-titles">
+              {(p.titles || []).map((t: any) => (
+                <div data-a="tile" class="in-title">
+                  <div class="in-title-k">{t.label}</div>
+                  <div class="in-title-v">{t.value}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div data-a="gallery" class="in-gal">
+    <div class="pg-rail">{p.galleryRail}</div>
+    <div class="in-gal-grid">
+      <div data-a="galStage" class="in-gal-stage">
+        <div data-a="galTrack" class="in-gal-track">
+          {gallery.map((g: any) => (
+            <div data-a="galSlide" class="in-gal-slide"><Img image={g.image} class="in-gal-img" width={1600} /></div>
+          ))}
+        </div>
+      </div>
+      <div class="in-gal-side">
+        <div>
+          <div class="ad-card-k">{p.galleryKicker}</div>
+          <div class="in-gal-count"><span data-a="galIdx" class="in-gal-idx">01</span><span class="in-gal-total">/ {nn(gallery.length)}</span></div>
+          <div data-a="galCap" class="in-gal-cap">{gallery[0]?.caption}</div>
+        </div>
+        <div class="in-gal-nav">
+          <a href="#" aria-label="Previous photo" data-a="galPrev" class="in-gal-btn">←</a>
+          <a href="#" aria-label="Next photo" data-a="galNext" class="in-gal-btn">→</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div data-a="beltSection" class="in-belts">
+    <div class="container-large">
+      <div data-a="beltPin" class="in-belt-pin">
+        <div class="in-belt-head">
+          <div>
+            <div class="in-kicker-dark">{p.recordKicker}</div>
+            <h2 data-a="split" class="in-h2-dark"><Lines text={p.recordHeading} /></h2>
+          </div>
+          <div class="in-count-wrap"><span data-a="countUp" data-to={p.recordCount} class="in-count">{p.recordCount}</span><span class="in-count-label">{p.recordCountLabel}</span></div>
+        </div>
+        <div class="in-track-mask">
+          <div data-a="beltTrack" class="in-track">
+            {belts.map((b: any, i: number) => (
+              <div data-a="beltPanel" class="in-panel">
+                <div class={`in-swatch in-swatch-${b.belt}`}>
+                  <div class="in-belt">
+                    <div class={b.belt === 'black' ? 'in-tab-red' : 'in-tab'}>
+                      {Array.from({length: b.stripes ?? 4}).map(() => <div data-a="beltStripe" class="in-stripe"></div>)}
+                    </div>
+                  </div>
+                  <div class="in-num">{nn(i + 1)} / {nn(belts.length)}</div>
+                  <div class="in-count-block">
+                    <div class="in-belt-count">{nn((b.wins || []).filter((w: any) => /^champion$/i.test(w.value)).length)}</div>
+                    <div class="in-belt-count-label">Titles</div>
+                  </div>
+                </div>
+                <div class="in-wins">
+                  <h3 class="in-belt-name">{b.name}</h3>
+                  <div class="in-win-list">
+                    {(b.wins || []).map((w: any) => (
+                      <div class="in-win"><span class="in-win-e">{w.label}</span><span class={/^champion$/i.test(w.value) ? 'in-win-p' : 'in-win-p-dim'}>{w.value}</span></div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div class="in-prog">
+          {belts.map((b: any) => (
+            <div>
+              <div class="in-prog-track">
+                <div data-a="beltProg" class={`in-prog-${b.belt}`}></div>
+              </div>
+              <div class="in-prog-label">{b.name}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="ad-section">
+      <div class="container-large">
+        <div class="ad-prog-grid">
+          <div class="ad-rail-label">{p.staffRail}</div>
+          <div class="ad-prog-body">
+            <h2 data-a="split" class="in-h2-staff"><Lines text={p.staffHeading} /></h2>
+            <div class="in-coaches">
+              {(p.coaches || []).map((c: any) => (
+                <div data-a="card" class="in-coach">
+                  <div class="in-coach-media">{c.photo && <Img image={c.photo} class="ad-cover" width={800} />}</div>
+                  <div class="in-coach-body">
+                    <div class="ad-card-k">{c.kicker}</div>
+                    <h3 class="in-coach-name">{c.name}</h3>
+                    {c.blackBeltName && <div data-roster={c.blackBeltName} class="in-coach-rank">{ranks[c.blackBeltName] || 'Black belt'}</div>}
+                    {c.bio && <p class="in-coach-bio">{c.bio}</p>}
+                  </div>
+                </div>
+              ))}
+            </div>
+            {p.staffLink?.label && <a href={p.staffLink.href} class="in-all-link">{p.staffLink.label}</a>}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ad-section">
+      <div class="container-large">
+        <div class="in-quote-grid">
+          <div class="in-quote-body">
+            <div data-a="rise" class="kd-quote">
+              <p class="in-quote-text">{p.quote}</p>
+              <div class="kd-quote-cite">{p.quoteCite}</div>
+            </div>
+          </div>
+          <div data-a="portraitWrap" class="in-quote-media"><Img image={p.quoteImage} class="ad-cover" sizes="(max-width: 991px) 100vw, 50vw" /></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <AdCta cta={p.cta} />
+    <Footer settings={s} />
+  </div>
+
+  <Fragment slot="scripts">
+    <script is:inline src="/js/instructors-roster.js"></script>
+    <script is:inline src="/js/instructors.js"></script>
+  </Fragment>
+</Layout>

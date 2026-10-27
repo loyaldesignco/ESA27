@@ -1,0 +1,144 @@
+---
+import Layout from '../layouts/Layout.astro'
+import Lines from '../components/Lines.astro'
+import Footer from '../components/Footer.astro'
+import Faqs from '../components/Faqs.astro'
+import {getShared, getPage} from '../lib/content'
+import {nn, tel} from '../lib/format'
+import {faqPage} from '../lib/schema'
+
+const shared = await getShared()
+const p = await getPage('visitPage')
+const s = shared.settings
+const gf = s.googleForm || {}
+const options = gf.options || []
+const form = {
+  actionUrl: gf.actionUrl,
+  emailField: gf.emailField,
+  nameField: gf.nameField,
+  phoneField: gf.phoneField,
+  classField: gf.classField,
+  classMap: Object.fromEntries(options.map((o: any) => [o.label, o.googleValue || o.label])),
+}
+const contactRows = [
+  {label: 'Phone', value: s.phone},
+  {label: 'Email', value: s.email},
+  ...(s.hours || []),
+]
+---
+<Layout shared={shared} seo={p.seo} jsonLd={[faqPage(p.faqs)]} data={{form}}>
+  <div data-a="hero">
+    <div class="container-large">
+      <div class="vu-hero-grid">
+        <div class="ad-rail"></div>
+        <div class="vu-hero-copy">
+          <div data-a="rise" class="ad-kicker">{p.kicker}</div>
+          <h1 data-a="heroTitle" class="ad-h1"><Lines text={p.headline} /></h1>
+          <p data-a="rise" class="kd-intro">{p.intro}</p>
+          <div class="vu-steps">
+            {(p.steps || []).map((st: any, i: number) => (
+              <div data-a="row" class="hs-lin-row"><span class="ad-tile-n">{nn(i + 1)}</span>
+                <div>
+                  <div class="hs-lin-name">{st.title}</div>
+                  <p class="vu-step-d">{st.copy}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div data-a="formPanel" class="vu-form-panel">
+          <div class="ad-kicker">{p.formKicker}</div>
+          <div class="vu-form-h">{p.formHeading}</div>
+          <div class="vu-form w-form">
+            <form method="post" name="free-class" aria-label="Book a free class">
+              <label for="vu-name" class="vu-label">Name</label><input class="vu-input w-input" maxlength="256" name="Name" placeholder="Your name" type="text" id="vu-name" required autocomplete="name" />
+              <label for="vu-email" class="vu-label">Email</label><input class="vu-input w-input" maxlength="256" name="Email" placeholder="you@email.com" type="email" id="vu-email" required autocomplete="email" />
+              <label for="vu-phone" class="vu-label">Phone</label><input class="vu-input w-input" maxlength="256" name="Phone" placeholder="516-000-0000" type="tel" id="vu-phone" autocomplete="tel" />
+              <div class="vu-label">Which class</div>
+              <div class="vu-opts">
+                {options.map((o: any) => (
+                  <label class="vu-opt"><input type="radio" name="Class" class="w-form-formradioinput vu-radio w-radio-input" value={o.label} /><span class="vu-opt-t">{o.label}</span></label>
+                ))}
+              </div>
+              <input type="submit" class="vu-submit w-button" value={p.formButton} />
+            </form>
+            <div class="w-form-done" role="status">
+              <div>{gf.successMessage}</div>
+            </div>
+            <div class="w-form-fail" role="alert">
+              <div>{gf.errorMessage}</div>
+            </div>
+          </div>
+          <p class="vu-small">{p.formNote} <a href={tel(s.phoneDial)} class="vu-small-link">{s.phone}</a>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="ad-section">
+      <div class="container-large">
+        <div class="in-quote-grid">
+          <div class="in-quote-body">
+            <div class="ad-kicker">{p.academyKicker}</div>
+            <h2 data-a="split" class="ad-h2-why"><Lines text={p.academyHeading} /></h2>
+            <div class="vu-nap">
+              {contactRows.map((r: any) => (
+                <div data-a="row" class="sc-guide-row">
+                  <div class="ad-spec-k">{r.label}</div>
+                  <div>{r.value}</div>
+                </div>
+              ))}
+            </div>
+            <div data-a="rise" class="vu-btns">
+              <a data-mag="1" href={s.directionsUrl} class="hm-btn">{p.directionsLabel}</a>
+              <a href={tel(s.phoneDial)} class="hm-link-line">{s.phone}</a>
+            </div>
+          </div>
+          <div class="in-quote-media vu-map">
+            <div data-map="1" class="vu-map-embed"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ad-cream">
+      <div class="container-large">
+        <div class="ad-pad">
+          <div class="ad-head-row">
+            <h2 data-a="split" class="ad-h2-md"><Lines text={p.townsHeading} /></h2>
+            <p class="ad-aside">{p.townsAside}</p>
+          </div>
+          <div class="vu-towns">
+            {(s.towns || []).map((t: any) => (
+              <div data-a="town" class="vu-town">
+                <div class="vu-town-n">{t.name}</div>
+                <div class="vu-town-d">{t.drive}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ad-section">
+      <div class="container-large">
+        <div class="ad-prog-grid">
+          <div class="ad-rail-label">{p.faqRail}</div>
+          <div class="ad-prog-body">
+            <div class="kd-faq-grid">
+              <h2 data-a="split" class="kd-h2-faq"><Lines text={p.faqHeading} /></h2>
+              <Faqs faqs={p.faqs} />
+              <div class="w-embed w-script"><style is:inline>.kd-faqs .kd-faq-q{cursor:pointer;position:relative;padding-right:40px;transition:color .15s}.kd-faqs .kd-faq-q:after{content:'+';position:absolute;right:0;top:50%;transform:translateY(-50%);font-weight:400;font-size:1.25em;transition:transform .35s cubic-bezier(.16,1,.3,1)}.kd-faqs .kd-faq.is-open .kd-faq-q{color:#a0302e}.kd-faqs .kd-faq.is-open .kd-faq-q:after{transform:translateY(-50%) rotate(45deg)}.kd-faqs .kd-faq-a{overflow:hidden;transition:max-height .55s cubic-bezier(.16,1,.3,1),opacity .4s cubic-bezier(.25,.46,.45,.94),margin .55s cubic-bezier(.16,1,.3,1),padding .55s cubic-bezier(.16,1,.3,1)}.kd-faqs .kd-faq:not(.is-open) .kd-faq-a{max-height:0!important;opacity:0;margin-top:0;margin-bottom:0;padding-top:0;padding-bottom:0}</style></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <Footer settings={s} />
+  </div>
+
+  <Fragment slot="scripts">
+    <script is:inline src="/js/form-options.js"></script>
+    <script is:inline src="/js/faq.js"></script>
+    <script is:inline src="/js/google-form.js"></script>
+    <script is:inline src="/js/visit.js"></script>
+  </Fragment>
+</Layout>
