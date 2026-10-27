@@ -750,7 +750,7 @@
 .hm-hero-fig {
   z-index: 2;
   object-fit: contain;
-  object-position: 100% 100%;
+  object-position: 100% 0%;
   width: calc(112% - 560px);
   max-width: none;
   height: 70vh;
