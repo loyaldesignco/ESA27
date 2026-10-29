@@ -1327,7 +1327,7 @@
   border-left-width: 1px;
   border-left-color: var(--border-primary);
   min-height: 620px;
-  margin-right: min(0px, 40rem - 50vw);
+  margin-right: min(0px, 45rem - 50vw);
   position: relative;
   overflow: hidden;
 }
@@ -2082,7 +2082,7 @@
   border-left-width: 1px;
   border-left-color: var(--border-primary);
   min-height: 520px;
-  margin-right: min(0px, 40rem - 50vw);
+  margin-right: min(0px, 45rem - 50vw);
   position: relative;
   overflow: hidden;
 }
@@ -2319,7 +2319,7 @@
   border-right-width: 1px;
   border-right-color: var(--border-primary);
   min-height: 460px;
-  margin-left: min(0px, 40rem - 50vw);
+  margin-left: min(0px, 45rem - 50vw);
   position: relative;
   overflow: hidden;
 }
@@ -3187,7 +3187,7 @@
   border-left-width: 1px;
   border-left-color: var(--border-primary);
   min-height: 440px;
-  margin-right: min(0px, 40rem - 50vw);
+  margin-right: min(0px, 45rem - 50vw);
   position: relative;
   overflow: hidden;
 }
@@ -3671,8 +3671,9 @@
 .vu-form-panel {
   border-left: 1px solid var(--border-primary);
   background-color: var(--accent-secondary);
-  margin-right: min(0px, 40rem - 50vw);
-  padding: 76px 32px;
+  --vu-bleed: max(0px, 50vw - 45rem);
+  margin-right: calc(-1 * var(--vu-bleed));
+  padding: 76px calc(32px + var(--vu-bleed)) 76px 32px;
 }
 
 .vu-form-h {
@@ -5251,7 +5252,7 @@
 
   .vu-form-panel {
     padding-left: 40px;
-    padding-right: 40px;
+    padding-right: calc(40px + var(--vu-bleed));
   }
 
   .bb-grid {
