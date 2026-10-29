@@ -325,7 +325,7 @@ export const schedulePage = {
   headline: 'Six days\n*a week',
   lead: 'Taught by a black belt coaching staff promoted by Professor Emerson Souza. Closed Sunday.',
   upNextButton: 'Claim a spot',
-  boardNotes: ['Dimmed classes have already started today', 'Doors open 15 minutes before the first class'],
+  boardNotes: ['Crossed-out classes have already started today', 'Doors open 15 minutes before the first class'],
   weekHeading: 'Everything on the mat,\nMonday to Saturday',
   weekAside: 'Today is highlighted',
   weekNote: 'Closed Sunday. Saturday is conditioning at 10:00 followed by a two hour open mat.',

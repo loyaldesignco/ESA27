@@ -53,7 +53,7 @@ function setEra(i){if(i===cur||i<0||i>=n)return;cur=i;var yh=reel&&reel.firstEle
  if(reel)gsap.to(reel,{y:-yh*i,duration:RM?0:.9,ease:IO,overwrite:true});
  if(idx)idx.textContent=String(i+1).padStart(2,'0');if(bar)gsap.to(bar,{scaleX:(i+1)/n,duration:.6,ease:E,overwrite:true});
  if(nm)nm.textContent=evs[i].getAttribute('data-name')||'';
- evs.forEach(function(e,j){gsap.to(e,{opacity:j===i?1:.28,duration:.5,overwrite:true});});
+ evs.forEach(function(e,j){e.classList.toggle('is-active',j===i);});
  if(P)P.go(i);else fbShow(i);}
 function boot(){if(boot.d)return;boot.d=1;initP();setEra(0);ST.refresh();}
 if(document.readyState==='complete')boot();else window.addEventListener('load',boot);setTimeout(boot,4000);

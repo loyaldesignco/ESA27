@@ -2466,8 +2466,10 @@
   border-left-color: #a0302e;
 }
 
-.hm-cls.is-past {
-  opacity: .35;
+.hm-cls.is-past .hm-cls-time, .hm-cls.is-past .hm-cls-name {
+  text-decoration: line-through;
+  text-decoration-color: #a0302e;
+  text-decoration-thickness: 1px;
 }
 
 .hm-cls-time {
@@ -2523,8 +2525,10 @@
   background-color: #eae4d7;
 }
 
-.sc-row.is-past {
-  opacity: .35;
+.sc-row.is-past .sc-row-time, .sc-row.is-past .sc-row-name {
+  text-decoration: line-through;
+  text-decoration-color: #a0302e;
+  text-decoration-thickness: 1px;
 }
 
 .sc-row-time {
