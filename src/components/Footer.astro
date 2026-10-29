@@ -29,7 +29,7 @@ const cols = [
           <div class="hm-foot-label">{col.label}</div>
           <div class="hm-foot-links">
             {col.links.map((l: any) => (
-              <a href={l.href} aria-current={l.current ? 'page' : undefined} class={l.current ? 'hm-foot-link w--current' : 'hm-foot-link'}>{l.label}</a>
+              <a href={l.href} aria-current={l.current ? 'page' : undefined} target={/^https?:/.test(l.href) ? '_blank' : undefined} rel={/^https?:/.test(l.href) ? 'noopener' : undefined} class={l.current ? 'hm-foot-link w--current' : 'hm-foot-link'}>{l.label}</a>
             ))}
           </div>
         </div>

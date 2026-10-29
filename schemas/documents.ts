@@ -210,7 +210,7 @@ export const kidsPage = singleton('kidsPage', 'Kids classes', [
     title: 'Age groups',
     type: 'array',
     group: 'content',
-    validation: (r: any) => r.max(2),
+    validation: (r: any) => r.max(3),
     of: [
       defineArrayMember({
         type: 'object',

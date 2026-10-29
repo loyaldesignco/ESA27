@@ -16,7 +16,7 @@ const shared = await getShared()
 const p = await getPage('kidsPage')
 const s = shared.settings
 const [pt1, pt2] = p.points || []
-const [age1, age2] = p.ageGroups || []
+const ages: any[] = p.ageGroups || []
 const ld = {
   '@context': 'https://schema.org',
   '@type': 'Course',
@@ -77,31 +77,19 @@ const ld = {
           <div class="ad-rail-label">{p.agesRail}</div>
           <div class="ad-prog-body">
             <h2 data-a="split" class="kd-h2-wide"><Lines text={p.agesHeading} /></h2>
-            <div class="kd-ages">
-              {age1 && (
-                <div data-a="card" class="kd-age">
+            <div class="kd-ages" style={`--kd-n:${ages.length}`}>
+              {ages.map((g: any, i: number) => (
+                <div data-a="card" class={i === 0 ? 'kd-age' : 'kd-age-alt'}>
                   <div class="kd-age-head">
-                    <div class="kd-age-name">{age1.name}</div>
-                    <div class="kd-chip">{age1.ages}</div>
+                    <div class="kd-age-name">{g.name}</div>
+                    {g.ages && <div class="kd-chip">{g.ages}</div>}
                   </div>
-                  <div class="kd-time-red">{age1.time}</div>
-                  <div class="kd-meta">{age1.meta}</div>
-                  <p class="kd-age-d">{age1.description}</p>
-                  {age1.button?.label && <a href={age1.button.href} class="kd-btn-full">{age1.button.label}</a>}
+                  {g.time && <div class={i === 0 ? 'kd-time-red' : 'kd-time'}>{g.time}</div>}
+                  {g.meta && <div class="kd-meta">{g.meta}</div>}
+                  <p class="kd-age-d">{g.description}</p>
+                  {g.button?.label && <a href={g.button.href} class={i === 0 ? 'kd-btn-full' : 'kd-btn-full-dark'}>{g.button.label}</a>}
                 </div>
-              )}
-              {age2 && (
-                <div data-a="card" class="kd-age-alt">
-                  <div class="kd-age-head">
-                    <div class="kd-age-name">{age2.name}</div>
-                    <div class="kd-chip">{age2.ages}</div>
-                  </div>
-                  <div class="kd-time">{age2.time}</div>
-                  <div class="kd-meta">{age2.meta}</div>
-                  <p class="kd-age-d">{age2.description}</p>
-                  {age2.button?.label && <a href={age2.button.href} class="kd-btn-full-dark">{age2.button.label}</a>}
-                </div>
-              )}
+              ))}
             </div>
           </div>
         </div>
