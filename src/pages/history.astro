@@ -74,7 +74,7 @@ const ld = {
             {events.map((e: any, i: number) => (
               <div data-a="event" data-key={e.keyWhite ? '1' : '0'} data-name={e.stageName} class="hs-event">
                 <div class="hs-ev-meta"><span class="hs-ev-n">{nn(i + 1)}</span><span class="hs-ev-place">{e.place}</span></div>
-                <h3 class="hs-ev-title">{e.title}</h3>
+                <h2 class="hs-ev-title">{e.title}</h2>
                 <p class="hs-ev-body">{e.body}</p>{e.image && <img src={src(e.image, 1200)} loading="lazy" alt={alt(e.image)} class="hs-src" />}
               </div>
             ))}

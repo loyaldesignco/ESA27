@@ -1550,7 +1550,7 @@
 }
 
 .hm-foot-label {
-  color: #fcfbfa66;
+  color: #fcfbfa80;
   letter-spacing: .2em;
   text-transform: uppercase;
   margin-bottom: 16px;
@@ -1590,7 +1590,7 @@
 }
 
 .hm-foot-note {
-  color: #fcfbfa66;
+  color: #fcfbfa80;
   text-align: right;
   letter-spacing: .14em;
   text-transform: uppercase;
@@ -4126,7 +4126,7 @@
 }
 
 .hm-mnav-g {
-  color: #fcfbfa73;
+  color: #fcfbfa80;
   letter-spacing: .16em;
   text-transform: uppercase;
   font-size: 10px;
@@ -4212,8 +4212,10 @@
   background-color: #fcfbfa;
   border: 1px solid #0000001a;
   grid-template-rows: auto;
-  grid-template-columns: repeat(3, 1fr);
-  width: 152px;
+  grid-template-columns: none;
+  grid-auto-columns: 50px;
+  grid-auto-flow: column;
+  width: max-content;
   display: grid;
 }
 
@@ -4232,7 +4234,7 @@
   background-color: #a0302e;
 }
 
-.hm-social-link.is-last {
+.hm-social-link.is-last, .hm-social-link:last-child {
   border-right-style: none;
 }
 

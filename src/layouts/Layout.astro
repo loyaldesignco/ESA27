@@ -85,7 +85,7 @@ const ld = [withContext(business(s, schedule)), ...jsonLd]
     {nav ? (
       <div class="hm-page">
         <Nav settings={s} />
-        <slot />
+        <main><slot /></main>
       </div>
     ) : <slot />}
     <slot name="after-page" />
