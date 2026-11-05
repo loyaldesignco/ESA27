@@ -164,7 +164,7 @@ const ld = {
             <div class="in-coaches">
               {(p.coaches || []).map((c: any) => (
                 <div data-a="card" class="in-coach">
-                  <div class="in-coach-media">{c.photo && <Img image={c.photo} class="ad-cover" width={800} />}</div>
+                  <div class="in-coach-media">{(c.photo || c.blackBeltPhoto) && <Img image={c.photo || c.blackBeltPhoto} class="ad-cover" width={800} />}</div>
                   <div class="in-coach-body">
                     <div class="ad-card-k">{c.kicker}</div>
                     <h3 class="in-coach-name">{c.name}</h3>

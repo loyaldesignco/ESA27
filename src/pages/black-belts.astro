@@ -6,7 +6,7 @@ import Footer from '../components/Footer.astro'
 import AdCta from '../components/AdCta.astro'
 import Lineage from '../components/Lineage.astro'
 import {getShared, getPage} from '../lib/content'
-import {rankedRoster} from '../lib/format'
+import {rankedRoster, focus} from '../lib/format'
 import {address} from '../lib/schema'
 
 const shared = await getShared()
@@ -66,7 +66,7 @@ const ld = {
           <div class="bb-grid">
             {roster.map((r) => (
               <div class="bb-card" data-a="card" data-deg={r.degree}>
-                <div class="bb-photo"></div>
+                <div class="bb-photo">{r.photo && <Img image={r.photo} alt={r.photo.alt || r.name} class="bb-img" style={`object-position:${focus(r.photo)}`} width={700} sizes="(max-width: 767px) 100vw, 25vw" />}</div>
                 <div class="bb-belt"><div class="bb-tab">{Array.from({length: r.degree}).map(() => <div class="bb-stripe" data-a="beltStripe"></div>)}</div></div>
                 <div class="bb-body">
                   <h3 class="bb-name">{r.name}</h3>

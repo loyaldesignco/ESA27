@@ -1,3 +1,8 @@
+import {src} from './image'
+
+/** CSS object-position from a Sanity image hotspot (defaults toward the top, where faces usually are). */
+export const focus = (img: any) =>
+  img?.hotspot ? `${Math.round(img.hotspot.x * 100)}% ${Math.round(img.hotspot.y * 100)}%` : '50% 20%'
 /** Escape text for set:html. */
 export const esc = (s = '') =>
   String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
@@ -63,7 +68,7 @@ export const ord = (n: number) => {
 
 /** Rows for window.SouzaRoster: [name, date|null, role, degreeOverride|null] */
 export const rosterForScript = (roster: any[]) =>
-  roster.map((r) => [r.name, r.promoted || null, r.role || '', r.degreeOverride ?? null])
+  roster.map((r) => [r.name, r.promoted || null, r.role || '', r.degreeOverride ?? null, r.photo ? src(r.photo, 700) : '', r.photo?.alt || r.name, focus(r.photo)])
 
 export function rankedRoster(roster: any[]) {
   return roster
@@ -76,6 +81,7 @@ export function rankedRoster(roster: any[]) {
         degree: d,
         short: d ? `${ord(d)} degree` : 'Black belt',
         rank: d ? `${ord(d)} degree black belt` : 'Black belt',
+        photo: r.photo || null,
       }
     })
     .sort(

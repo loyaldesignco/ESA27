@@ -105,9 +105,10 @@ export const blackBelt = defineType({
       description: 'Only if the date is unknown but the degree is. Leave empty to calculate from the date.',
     }),
     str('role', 'Role', {description: 'e.g. "Coach" or "Professor · Head instructor". Leave empty for none.'}),
+    img('photo', 'Photo', {description: 'Shown on the Black belts page. Portrait or square crops work best; set the focal point on the face.'}),
   ],
   orderings: [{title: 'Name', name: 'name', by: [{field: 'name', direction: 'asc'}]}],
-  preview: {select: {title: 'name', subtitle: 'promoted'}},
+  preview: {select: {title: 'name', subtitle: 'promoted', media: 'photo'}},
 })
 
 /* ------------------------------------------------------------------ */

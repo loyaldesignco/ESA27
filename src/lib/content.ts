@@ -33,7 +33,7 @@ export const getSchedule = () => fetchDoc('classSchedule')
 
 export async function getPage(id: string) {
   if (id === 'instructorsPage') {
-    const doc = await fetchDoc(id, '..., coaches[]{..., "blackBeltName": blackBelt->name}')
+    const doc = await fetchDoc(id, '..., coaches[]{..., "blackBeltName": blackBelt->name, "blackBeltPhoto": blackBelt->photo}')
     if (!SANITY_ENABLED) {
       // resolve the seed's references the same way GROQ does
       doc.coaches = doc.coaches?.map((c: any) => ({
@@ -49,7 +49,7 @@ export async function getPage(id: string) {
 export async function getBlackBelts(): Promise<any[]> {
   if (!SANITY_ENABLED) return seed.blackBelts
   const c = await client()
-  return c.fetch(`*[_type == "blackBelt" && !(_id in path("drafts.**"))]{name, promoted, degreeOverride, role}`)
+  return c.fetch(`*[_type == "blackBelt" && !(_id in path("drafts.**"))]{name, promoted, degreeOverride, role, photo}`)
 }
 
 /** Everything every page needs, fetched once per page build. */
