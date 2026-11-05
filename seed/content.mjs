@@ -537,7 +537,32 @@ export const visitPage = {
   ),
 }
 
+/* ------------------------------------------------------------------ */
+export const waiverPage = {
+  _id: 'waiverPage',
+  _type: 'waiverPage',
+  kicker: 'Waiver · Baldwin, NY',
+  headline: 'Sign your\n*waiver',
+  intro: 'Every student signs this once, before their first class. Anyone under 18 must be signed for by a parent or legal guardian. It takes about two minutes.',
+  waiverHeading: 'Release and waiver of liability',
+  waiverText: "[Placeholder wording - to be reviewed by the academy's attorney before use]\n\n1. Assumption of risk. I understand that Brazilian jiu-jitsu, grappling, self-defense and conditioning training are physical contact activities that carry an inherent risk of injury, including sprains, fractures, joint injuries, concussion and, in rare cases, serious injury. I voluntarily choose to participate and accept these risks.\n\n2. Release. In consideration of being allowed to train, I release and hold harmless Emerson Souza Brazilian Jiu-Jitsu, its owners, instructors, staff and members from any claims arising from my participation in classes, open mats or events, to the fullest extent permitted by law.\n\n3. Health. I confirm that I am physically able to participate, that I have disclosed any relevant medical conditions above, and that I will stop training and tell an instructor if I feel unwell or injured.\n\n4. Rules. I agree to follow the instructions of the coaching staff and the academy's rules, including hygiene and conduct rules.\n\n5. Medical treatment. In an emergency, I authorize the academy to seek medical treatment on my behalf (or my child's) and accept responsibility for its cost.\n\n6. Minors. If I am signing for a participant under 18, I am their parent or legal guardian and I agree to these terms on their behalf and my own.\n\n7. Electronic signature. Typing my full name below is my electronic signature and has the same effect as a handwritten signature.",
+  photoConsentNote: 'The academy may share class photos and videos on its website and social media.',
+  submitLabel: 'Sign the waiver',
+  successMessage: 'Thank you. Your waiver has been received. See you on the mat.',
+  errorMessage: 'Something went wrong sending your waiver. Please try again, or call the academy.',
+  googleForm: {
+    _type: 'object',
+    actionUrl: 'https://docs.google.com/forms/d/e/1FAIpQLScLXvt7H65QZHnEg1gC5dDG8Bc61yIaMYdOWsReUnJTq48A0Q/formResponse',
+    name: 'entry.1780643975', dob: 'entry.1150164405', phone: 'entry.1567302610', address: 'entry.2016888226',
+    minor: 'entry.2104527414', guardianName: 'entry.588980837', guardianRelation: 'entry.1108122491',
+    guardianPhone: 'entry.1744637480', emergencyName: 'entry.1806168901', emergencyPhone: 'entry.211134313',
+    medical: 'entry.1664533525', photo: 'entry.419000851', agree: 'entry.564364445',
+    signature: 'entry.530329544', signedDate: 'entry.1683355271',
+  },
+  seo: seo('Waiver | Emerson Souza Brazilian Jiu-Jitsu', 'Sign the Emerson Souza Brazilian Jiu-Jitsu liability waiver before your first class.'),
+}
+
 export const documents = [
   siteSettings, classSchedule, ...blackBelts,
-  homePage, adultPage, kidsPage, schedulePage, historyPage, instructorsPage, blackBeltsPage, visitPage,
+  homePage, adultPage, kidsPage, schedulePage, historyPage, instructorsPage, blackBeltsPage, visitPage, waiverPage,
 ]

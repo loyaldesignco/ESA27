@@ -356,12 +356,50 @@ export const visitPage = singleton('visitPage', 'Visit us', [
   list('faqs', 'Questions', 'faq', {group: 'content'}),
 ])
 
+export const waiverPage = singleton('waiverPage', 'Waiver', [
+  str('kicker', 'Kicker', {group: 'hero'}),
+  headline('headline', 'Headline', 'hero'),
+  txt('intro', 'Intro', {group: 'hero'}),
+  str('waiverHeading', 'Waiver heading', {group: 'content'}),
+  defineField({
+    name: 'waiverText',
+    title: 'Waiver wording',
+    type: 'text',
+    rows: 20,
+    group: 'content',
+    description: 'Shown above the signature. Blank lines start a new paragraph. Keep it in step with the Google Form.',
+  }),
+  str('photoConsentNote', 'Photo consent note', {group: 'content'}),
+  str('submitLabel', 'Submit button label', {group: 'content'}),
+  txt('successMessage', 'Message after signing', {group: 'content'}),
+  txt('errorMessage', 'Message if sending fails', {group: 'content'}),
+  defineField({
+    name: 'googleForm',
+    title: 'Google Form connection',
+    type: 'object',
+    group: 'seo',
+    description: 'Where signed waivers are sent. Only change these if the Google Form is rebuilt.',
+    options: {collapsible: true, collapsed: true},
+    fields: [
+      str('actionUrl', 'Form response URL', {description: 'Ends in /formResponse'}),
+      ...[
+        ['name', 'Participant full name'], ['dob', 'Participant date of birth'], ['phone', 'Phone'],
+        ['address', 'Home address'], ['minor', 'Under 18?'], ['guardianName', 'Guardian name'],
+        ['guardianRelation', 'Guardian relationship'], ['guardianPhone', 'Guardian phone'],
+        ['emergencyName', 'Emergency contact name'], ['emergencyPhone', 'Emergency contact phone'],
+        ['medical', 'Medical notes'], ['photo', 'Photo consent'], ['agree', 'Agreement'],
+        ['signature', 'Signature'], ['signedDate', 'Date signed'],
+      ].map(([n, t]) => str(n, t, {description: 'entry.123… id'})),
+    ],
+  }),
+])
+
 export const documents = [
   siteSettings, classSchedule, blackBelt,
-  homePage, adultPage, kidsPage, schedulePage, historyPage, instructorsPage, blackBeltsPage, visitPage,
+  homePage, adultPage, kidsPage, schedulePage, historyPage, instructorsPage, blackBeltsPage, visitPage, waiverPage,
 ]
 
 export const SINGLETONS = [
   'siteSettings', 'classSchedule',
-  'homePage', 'adultPage', 'kidsPage', 'schedulePage', 'historyPage', 'instructorsPage', 'blackBeltsPage', 'visitPage',
+  'homePage', 'adultPage', 'kidsPage', 'schedulePage', 'historyPage', 'instructorsPage', 'blackBeltsPage', 'visitPage', 'waiverPage',
 ]

@@ -1,0 +1,113 @@
+---
+/**
+ * /waiver — liability waiver. Submits to the academy's Google Form (ids in Sanity → Pages → Waiver).
+ * Not indexed by search engines and not linked from the sitemap or llms.txt.
+ */
+import Layout from '../layouts/Layout.astro'
+import Lines from '../components/Lines.astro'
+import Footer from '../components/Footer.astro'
+import {getShared, getPage} from '../lib/content'
+import {tel} from '../lib/format'
+
+const shared = await getShared()
+const p = await getPage('waiverPage')
+const s = shared.settings
+const gf = p.googleForm || {}
+const paras = String(p.waiverText || '').split(/\n\s*\n/).map((t) => t.trim()).filter(Boolean)
+const AGREE = 'I have read and agree to the release and waiver of liability above'
+const PHOTO = ['Yes, I consent', 'No, please do not include me / my child']
+---
+<Layout shared={shared} seo={p.seo} noindex data={{waiver: gf}}>
+  <div data-a="hero">
+    <div class="container-large">
+      <div class="vu-hero-grid wv-hero">
+        <div class="ad-rail"></div>
+        <div class="vu-hero-copy">
+          <div data-a="rise" class="ad-kicker">{p.kicker}</div>
+          <h1 data-a="heroTitle" class="ad-h1"><Lines text={p.headline} /></h1>
+          <p data-a="rise" class="kd-intro">{p.intro}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ad-section">
+    <div class="container-large">
+      <div class="ad-prog-grid">
+        <div class="ad-rail-label">Waiver</div>
+        <div class="ad-prog-body">
+          <div class="wv-wrap w-form">
+            <form id="waiver" class="wv-form" novalidate aria-label="Liability waiver">
+
+              <fieldset class="wv-set">
+                <legend class="ad-kicker">01 · Participant</legend>
+                <div class="wv-grid">
+                  <div class="wv-f wv-wide"><label for="wv-name" class="vu-label">Participant full name</label><input id="wv-name" name="name" class="vu-input w-input" required autocomplete="name" maxlength="200" /></div>
+                  <div class="wv-f"><label for="wv-dob" class="vu-label">Date of birth</label><input id="wv-dob" name="dob" type="date" class="vu-input w-input" required /></div>
+                  <div class="wv-f"><label for="wv-phone" class="vu-label">Phone</label><input id="wv-phone" name="phone" type="tel" class="vu-input w-input" required autocomplete="tel" maxlength="40" /></div>
+                  <div class="wv-f wv-wide"><label for="wv-email" class="vu-label">Email</label><input id="wv-email" name="email" type="email" class="vu-input w-input" required autocomplete="email" maxlength="200" /></div>
+                  <div class="wv-f wv-wide"><label for="wv-address" class="vu-label">Home address</label><textarea id="wv-address" name="address" class="vu-input w-input wv-area" required autocomplete="street-address" maxlength="500" rows="2"></textarea></div>
+                </div>
+                <div class="vu-label wv-q" id="wv-minor-l">Is the participant under 18?</div>
+                <div class="wv-opts" role="radiogroup" aria-labelledby="wv-minor-l">
+                  <label class="vu-opt"><input type="radio" name="minor" value="Yes" class="vu-radio" required /><span class="vu-opt-t">Yes</span></label>
+                  <label class="vu-opt"><input type="radio" name="minor" value="No" class="vu-radio" /><span class="vu-opt-t">No</span></label>
+                </div>
+              </fieldset>
+
+              <fieldset class="wv-set" id="wv-guardian" hidden disabled>
+                <legend class="ad-kicker">02 · Parent or legal guardian</legend>
+                <div class="wv-grid">
+                  <div class="wv-f wv-wide"><label for="wv-gname" class="vu-label">Parent or guardian full name</label><input id="wv-gname" name="guardianName" class="vu-input w-input" required maxlength="200" /></div>
+                  <div class="wv-f"><label for="wv-grel" class="vu-label">Relationship to participant</label><input id="wv-grel" name="guardianRelation" class="vu-input w-input" required maxlength="100" /></div>
+                  <div class="wv-f"><label for="wv-gphone" class="vu-label">Parent or guardian phone</label><input id="wv-gphone" name="guardianPhone" type="tel" class="vu-input w-input" required maxlength="40" /></div>
+                </div>
+              </fieldset>
+
+              <fieldset class="wv-set">
+                <legend class="ad-kicker"><span data-n="emergency">02</span> · Emergency contact and medical</legend>
+                <div class="wv-grid">
+                  <div class="wv-f"><label for="wv-ename" class="vu-label">Emergency contact name</label><input id="wv-ename" name="emergencyName" class="vu-input w-input" required maxlength="200" /></div>
+                  <div class="wv-f"><label for="wv-ephone" class="vu-label">Emergency contact phone</label><input id="wv-ephone" name="emergencyPhone" type="tel" class="vu-input w-input" required maxlength="40" /></div>
+                  <div class="wv-f wv-wide"><label for="wv-med" class="vu-label">Medical conditions, injuries or allergies the coaches should know about <span class="wv-opt-l">(optional)</span></label><textarea id="wv-med" name="medical" class="vu-input w-input wv-area" rows="3" maxlength="2000"></textarea></div>
+                </div>
+              </fieldset>
+
+              <fieldset class="wv-set">
+                <legend class="ad-kicker"><span data-n="waiver">03</span> · {p.waiverHeading}</legend>
+                <div class="wv-text" tabindex="0" aria-label={p.waiverHeading}>
+                  {paras.map((t) => <p>{t}</p>)}
+                </div>
+                <div class="vu-label wv-q" id="wv-photo-l">Photo and video consent</div>
+                {p.photoConsentNote && <p class="wv-help">{p.photoConsentNote}</p>}
+                <div class="wv-opts" role="radiogroup" aria-labelledby="wv-photo-l">
+                  {PHOTO.map((o, i) => <label class="vu-opt"><input type="radio" name="photo" value={o} class="vu-radio" required={i === 0} /><span class="vu-opt-t">{o}</span></label>)}
+                </div>
+                <label class="vu-opt wv-agree"><input type="checkbox" name="agree" value={AGREE} class="vu-radio" required /><span class="vu-opt-t">{AGREE}</span></label>
+                <div class="wv-grid">
+                  <div class="wv-f"><label for="wv-sig" class="vu-label">Signature: type your full legal name</label><input id="wv-sig" name="signature" class="vu-input w-input wv-sig" required maxlength="200" autocomplete="name" /><p class="wv-help" data-sig-help>Parent or guardian signs for anyone under 18.</p></div>
+                  <div class="wv-f"><label for="wv-date" class="vu-label">Date signed</label><input id="wv-date" name="signedDate" type="date" class="vu-input w-input" required /></div>
+                </div>
+              </fieldset>
+
+              <p class="wv-err" role="alert" hidden></p>
+              <button type="submit" class="vu-submit w-button">{p.submitLabel || 'Sign the waiver'}</button>
+            </form>
+            <div class="w-form-done wv-done" role="status" tabindex="-1">
+              <div>{p.successMessage}</div>
+            </div>
+            <div class="w-form-fail" role="alert">
+              <div>{p.errorMessage} <a href={tel(s.phoneDial)}>{s.phone}</a></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <Footer settings={s} />
+
+  <Fragment slot="scripts">
+    <script is:inline src="/js/waiver.js"></script>
+    <script is:inline src="/js/visit.js"></script>
+  </Fragment>
+</Layout>

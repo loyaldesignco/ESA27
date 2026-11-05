@@ -18,6 +18,7 @@ const PAGES: [string, string][] = [
   ['instructorsPage', 'Instructors'],
   ['blackBeltsPage', 'Black belts'],
   ['visitPage', 'Visit us'],
+  ['waiverPage', 'Waiver'],
 ]
 
 const one = (S: StructureBuilder, id: string, title: string) =>

@@ -5,8 +5,8 @@ const {settings: s} = Astro.props
 const path = Astro.url.pathname.replace(/\/$/, '') || '/'
 const L = (href: string, label: string) => ({href, label, current: href === path})
 const cols = [
-  {label: 'Train', links: [L('/adult-classes', 'Adult classes'), L('/kids-classes', 'Kids classes'), L('/schedule', 'Class schedule'), L('/schedule', 'Open mat')]},
-  {label: 'Academy', links: [L('/history', 'History'), L('/instructors', 'Instructors'), L('/black-belts', 'Black belts'), L('/visit-us', 'Visit us')]},
+  {label: 'Train', links: [L('/adult-classes', 'Adult classes'), L('/kids-classes', 'Kids classes'), L('/schedule', 'Class schedule')]},
+  {label: 'Academy', links: [L('/history', 'History'), L('/instructors', 'Instructors'), L('/black-belts', 'Black belts'), L('/visit-us', 'Visit us'), L('/waiver', 'Sign the waiver')]},
   {label: 'Follow', links: [
     s.instagram && {href: s.instagram, label: 'Instagram'},
     s.facebook && {href: s.facebook, label: 'Facebook'},

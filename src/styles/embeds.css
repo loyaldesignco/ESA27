@@ -31,3 +31,32 @@ body>div[style*="z-index: 9999"][style*="pointer-events: none"]{border-radius:50
 @media (min-width:1280px){.kd-ages{grid-template-columns:repeat(var(--kd-n,2),minmax(0,1fr))}}
 .kd-ages>.kd-age,.kd-ages>.kd-age-alt{display:flex;flex-direction:column}
 .kd-ages .kd-age-d{flex-grow:1}
+/* Waiver page */
+.wv-wrap{max-width:820px}
+.wv-form{display:flex;flex-direction:column;gap:56px}
+.wv-set{border:0;margin:0;padding:0;min-width:0}
+.wv-set[hidden]{display:none}
+.wv-set>legend{padding:0;margin-bottom:24px}
+.wv-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 24px}
+.wv-f{display:flex;flex-direction:column;min-width:0}
+.wv-f .vu-input{width:100%}
+.wv-wide{grid-column:1/-1}
+.wv-area{height:auto;min-height:72px;padding-top:14px;padding-bottom:14px;resize:vertical}
+.wv-q{margin-top:28px}
+.wv-opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.wv-opts .vu-opt+.vu-opt{margin-top:0}
+.wv-opt-l,.wv-help{font-family:var(--font-body);font-size:13px;color:rgba(0,0,0,.6);letter-spacing:0;text-transform:none;font-weight:400}
+.wv-help{margin:6px 0 10px}
+.wv-text{border:1px solid rgba(0,0,0,.2);background:#fcfbfa;padding:24px 28px;max-height:420px;overflow:auto;font-family:var(--font-body);font-size:15px;line-height:1.65;color:#000}
+.wv-text p{margin:0 0 14px}.wv-text p:last-child{margin-bottom:0}
+.wv-text:focus-visible{outline:2px solid #a0302e;outline-offset:2px}
+.wv-agree{margin:28px 0 24px}
+.wv-sig{font-style:italic;font-size:18px}
+.wv-err{margin:0;color:#a0302e;font-family:var(--font-body);font-size:14px;font-weight:600}
+.wv-err[hidden]{display:none}
+.wv-form .vu-submit{align-self:flex-start;border:0;cursor:pointer}
+.wv-form .vu-submit:disabled{opacity:.6;cursor:wait}
+.wv-done{padding:28px;border:1px solid #a0302e;font-family:var(--font-body);font-size:16px}
+.wv-hero .vu-hero-copy{grid-column:2/-1}
+@media (max-width:767px){.wv-grid,.wv-opts{grid-template-columns:minmax(0,1fr)}.wv-text{padding:18px 20px}.wv-form{gap:44px}}
+.wv-form .vu-submit{padding:0 36px}
