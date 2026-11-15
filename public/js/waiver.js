@@ -48,7 +48,7 @@
       put(CFG.minor, minor ? 'Yes' : 'No');
       if (minor) { put(CFG.guardianName, v('guardianName')); put(CFG.guardianRelation, v('guardianRelation')); put(CFG.guardianPhone, v('guardianPhone')); }
       put(CFG.emergencyName, v('emergencyName')); put(CFG.emergencyPhone, v('emergencyPhone')); put(CFG.medical, v('medical'));
-      put(CFG.photo, (form.querySelector('input[name=photo]:checked') || {}).value || '');
+      put(CFG.photo, 'Yes, I consent'); // consent is now part of the signed waiver text
       put(CFG.agree, form.elements.agree.value);
       put(CFG.signature, v('signature')); ymd(v('signedDate'), CFG.signedDate, fd);
       // Google Form sections: 0 participant, 1 guardian (minors only), 2 emergency/medical, 3 waiver

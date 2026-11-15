@@ -4417,6 +4417,8 @@
 .bb-cover {
   z-index: 0;
   object-fit: contain;
+  width: auto;
+  max-width: none;
   height: 100%;
   position: absolute;
   inset: 0% 0% 0% auto;
@@ -4839,7 +4841,7 @@
   width: 100%;
   min-height: 440px;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .bb-corner {

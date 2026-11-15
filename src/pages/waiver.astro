@@ -15,7 +15,6 @@ const s = shared.settings
 const gf = p.googleForm || {}
 const paras = String(p.waiverText || '').split(/\n\s*\n/).map((t) => t.trim()).filter(Boolean)
 const AGREE = 'I have read and agree to the release and waiver of liability above'
-const PHOTO = ['Yes, I consent', 'No, please do not include me / my child']
 ---
 <Layout shared={shared} seo={p.seo} noindex data={{waiver: gf}}>
   <div data-a="hero">
@@ -77,11 +76,6 @@ const PHOTO = ['Yes, I consent', 'No, please do not include me / my child']
                 <legend class="ad-kicker"><span data-n="waiver">03</span> · {p.waiverHeading}</legend>
                 <div class="wv-text" tabindex="0" aria-label={p.waiverHeading}>
                   {paras.map((t) => <p>{t}</p>)}
-                </div>
-                <div class="vu-label wv-q" id="wv-photo-l">Photo and video consent</div>
-                {p.photoConsentNote && <p class="wv-help">{p.photoConsentNote}</p>}
-                <div class="wv-opts" role="radiogroup" aria-labelledby="wv-photo-l">
-                  {PHOTO.map((o, i) => <label class="vu-opt"><input type="radio" name="photo" value={o} class="vu-radio" required={i === 0} /><span class="vu-opt-t">{o}</span></label>)}
                 </div>
                 <label class="vu-opt wv-agree"><input type="checkbox" name="agree" value={AGREE} class="vu-radio" required /><span class="vu-opt-t">{AGREE}</span></label>
                 <div class="wv-grid">
