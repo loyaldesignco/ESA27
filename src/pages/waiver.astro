@@ -16,7 +16,7 @@ const gf = p.googleForm || {}
 const paras = String(p.waiverText || '').split(/\n\s*\n/).map((t) => t.trim()).filter(Boolean)
 const AGREE = 'I have read and agree to the release and waiver of liability above'
 ---
-<Layout shared={shared} seo={p.seo} noindex data={{waiver: gf}}>
+<Layout shared={shared} seo={p.seo} noindex data={{waiver: gf, waiverText: paras.join('\n\n')}}>
   <div data-a="hero">
     <div class="container-large">
       <div class="vu-hero-grid wv-hero">
@@ -84,6 +84,7 @@ const AGREE = 'I have read and agree to the release and waiver of liability abov
                 </div>
               </fieldset>
 
+              <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
               <p class="wv-err" role="alert" hidden></p>
               <button type="submit" class="vu-submit w-button">{p.submitLabel || 'Sign the waiver'}</button>
             </form>
@@ -101,6 +102,7 @@ const AGREE = 'I have read and agree to the release and waiver of liability abov
   <Footer settings={s} />
 
   <Fragment slot="scripts">
+    <script is:inline src="/js/forms.js"></script>
     <script is:inline src="/js/waiver.js"></script>
     <script is:inline src="/js/visit.js"></script>
   </Fragment>

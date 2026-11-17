@@ -60,6 +60,7 @@ const contactRows = [
                   <label class="vu-opt"><input type="radio" name="Class" class="w-form-formradioinput vu-radio w-radio-input" value={o.label} /><span class="vu-opt-t">{o.label}</span></label>
                 ))}
               </div>
+              <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
               <input type="submit" class="vu-submit w-button" value={p.formButton} />
             </form>
             <div class="w-form-done" role="status">
@@ -138,6 +139,7 @@ const contactRows = [
   <Fragment slot="scripts">
     <script is:inline src="/js/form-options.js"></script>
     <script is:inline src="/js/faq.js"></script>
+    <script is:inline src="/js/forms.js"></script>
     <script is:inline src="/js/google-form.js"></script>
     <script is:inline src="/js/visit.js"></script>
   </Fragment>

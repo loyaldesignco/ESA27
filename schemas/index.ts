@@ -1,4 +1,5 @@
 import {objects} from './objects'
 import {documents} from './documents'
+import {formSubmission} from './formSubmission'
 export {SINGLETONS} from './documents'
-export const schemaTypes = [...objects, ...documents]
+export const schemaTypes = [...objects, ...documents, formSubmission]

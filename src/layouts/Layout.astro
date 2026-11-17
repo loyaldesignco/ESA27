@@ -46,6 +46,13 @@ const ESA = {
   },
   roster: rosterForScript(roster),
   schedule: scheduleForScript(schedule),
+  // Forms go to Loyal Design's shared forms service (Postmark email + private copy in Sanity). See public/js/forms.js.
+  forms: {
+    endpoint: import.meta.env.PUBLIC_FORMS_ENDPOINT ?? 'https://www.loyal.design/api/forms',
+    site: 'esa',
+    // reCAPTCHA v3 site key (public); its domain list must include this site's domains
+    recaptchaKey: import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY ?? '6LfBZxouAAAAAD0_hBnghwU2YtQe4kdTR_2k8m8Z',
+  },
   ...data,
 }
 const ld = [withContext(business(s, schedule)), ...jsonLd]

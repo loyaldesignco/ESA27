@@ -24,6 +24,19 @@ const PAGES: [string, string][] = [
 const one = (S: StructureBuilder, id: string, title: string) =>
   S.listItem().title(title).id(id).child(S.document().schemaType(id).documentId(id).title(title))
 
+/** Newest-first list of form submissions (saved privately by the forms service), optionally filtered. */
+const submissions = (S: StructureBuilder, title: string, where: string | null) =>
+  S.listItem()
+    .title(title)
+    .id(`submissions-${title.toLowerCase().replace(/\W+/g, '-')}`)
+    .child(
+      S.documentList()
+        .title(title)
+        .schemaType('formSubmission')
+        .filter(`_type == "formSubmission"${where ? ` && ${where}` : ''}`)
+        .defaultOrdering([{field: 'submittedAt', direction: 'desc'}]),
+    )
+
 export default defineConfig({
   name: 'esa',
   title: 'Emerson Souza BJJ',
@@ -41,6 +54,23 @@ export default defineConfig({
             one(S, 'classSchedule', 'Class schedule'),
             S.documentTypeListItem('blackBelt').title('Black belts'),
             S.divider(),
+            S.listItem()
+              .title('Form submissions')
+              .id('formSubmissions')
+              .child(
+                S.list()
+                  .title('Form submissions')
+                  .items([
+                    submissions(S, 'New', 'status == "new"'),
+                    submissions(S, 'Waivers', 'fields[0].value == "Signed waiver"'),
+                    submissions(S, 'Free class requests', 'fields[0].value == "Free class request"'),
+                    submissions(S, 'Replied', 'status == "replied"'),
+                    submissions(S, 'Archived', 'status == "archived"'),
+                    S.divider(),
+                    submissions(S, 'All', null),
+                  ]),
+              ),
+            S.divider(),
             one(S, 'siteSettings', 'Site settings'),
           ]),
     }),
@@ -49,12 +79,14 @@ export default defineConfig({
   schema: {
     types: schemaTypes,
     // Pages and settings exist exactly once — hide them from "Create new"
-    templates: (templates) => templates.filter(({schemaType}) => !SINGLETONS.includes(schemaType)),
+    templates: (templates) => templates.filter(({schemaType}) => !SINGLETONS.includes(schemaType) && schemaType !== 'formSubmission'),
   },
   document: {
     actions: (input, {schemaType}) =>
       SINGLETONS.includes(schemaType)
         ? input.filter(({action}) => action && ['publish', 'discardChanges', 'restore'].includes(action))
-        : input,
+        : schemaType === 'formSubmission'
+          ? input.filter(({action}) => action !== 'duplicate')
+          : input,
   },
 })
